@@ -1,6 +1,17 @@
-function setup(){
+var playerX = 0, playerY = 0;
+var hudImage;
+var grassImage;
 
-    var myImage = new Image(1024,1024);
-    myImage.src = './Resources/grass.png';
-    document.body.appendChild(myImage);
+function preload() {
+    hudImage = loadImage('./Resources/hud.png');
+    grassImage = loadImage('./Resources/grass.png');
+}
+
+function setup(){
+    createCanvas(800, 800);
 } 
+
+
+function draw() {
+    image(hudImage, 0, 0, width, height);
+}
