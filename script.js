@@ -1,10 +1,15 @@
 var hudImage;
 var grassImage;
 var playerImage;
+var obstacleImage;
+var goldImage;
+var campImage;
+var twgImage;
 
 var side = 32;
 var obstacles = [{ x: 10 * side, y: 10 * side }];
 var gold = [{ x: 5 * side, y: 6 * side }];
+var camp = [{ x: 0.5 * side, y: 13.5 * side}];
 
 var playerX = 0;
 var playerY = 0;
@@ -15,6 +20,10 @@ function preload(){
     hudImage = loadImage('./Resources/hud.png');
     grassImage = loadImage('./Resources/grass.png')
     playerImage = loadImage('./Resources/player_blue_3.png')
+    campImage = loadImage('./Resources/camp_blue.png')
+    obstacleImage = loadImage('./Resources/obstacle.png')
+    goldImage = loadImage('./Resources/gold.png')
+    twgImage = loadImage('./Resources/gold_1.png')
 }
 
 function setup() {
@@ -29,8 +38,14 @@ function draw() {
     
     drawResources();
 
+    drawCamp();
+
     if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width-side)) {
+        playerImage = loadImage('./Resources/player_blue_3.png')
         for (var coords of obstacles) {
+            if (Collision_right(coords)) return;
+        }
+        for (var coords of camp) {
             if (Collision_right(coords)) return;
         }
         for (var i in gold) {
@@ -43,7 +58,11 @@ function draw() {
         playerX += side / 8;
     }
     if ((keyIsDown(LEFT_ARROW) || keyIsDown(65)) && playerX > 0) {
+        playerImage = loadImage('./Resources/player_blue_1.png')
         for (var coords of obstacles) {
+            if (Collision_left(coords)) return;
+        }
+        for (var coords of camp) {
             if (Collision_left(coords)) return;
         }
         for (var i in gold) {
@@ -56,7 +75,11 @@ function draw() {
         playerX -= side / 8;
     }
     if ((keyIsDown(UP_ARROW) || keyIsDown(87)) && playerY > 0) {
+        playerImage = loadImage('./Resources/player_blue_2.png')
         for (var coords of obstacles) {
+            if (Collision_up(coords)) return;
+        }
+        for (var coords of camp) {
             if (Collision_up(coords)) return;
         }
         for (var i in gold) {
@@ -69,7 +92,11 @@ function draw() {
         playerY -= side / 8;
     }
     if ((keyIsDown(DOWN_ARROW) || keyIsDown(83)) && playerY < (height - side)) {
+        playerImage = loadImage('./Resources/player_blue_4.png')
         for (var coords of obstacles) {
+            if (Collision_down(coords)) return;
+        }
+        for (var coords of camp) {
             if (Collision_down(coords)) return;
         }
         for (var i in gold) {
