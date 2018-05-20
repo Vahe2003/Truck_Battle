@@ -1,22 +1,22 @@
 {
-  "name": "trucl-battle",
+  "name": "truck_battle",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
+  "main": "functions.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hakobyan008/Track_Battle.git"
+    "url": "git+https://github.com/Vahe2003/Truck_Battle.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hakobyan008/Track_Battle/issues"
+    "url": "https://github.com/Vahe2003/Truck_Battle/issues"
   },
-  "homepage": "https://github.com/hakobyan008/Track_Battle#readme",
+  "homepage": "https://github.com/Vahe2003/Truck_Battle#readme",
   "dependencies": {
     "express": "^4.16.3",
     "nodemon": "^1.17.4",
