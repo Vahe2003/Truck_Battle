@@ -1,15 +1,27 @@
 function drawPlayer() { 
     image(playerImage, playerX,playerY);
-    if (playerHasGold) {
-        image(twgImage,playerX + 2, playerY + 1)
-    }
-}
+        if (playerHasGoldLeft) {
+            image(twgImageLeft,playerX + 2, playerY + 1)
+        }
+        if (playerHasGoldRight) {
+            image(twgImageRight,playerX, playerY)
+        }
+        if (playerHasGoldUp) {
+            image(twgImageUp,playerX, playerY)
+        }
+        if (playerHasGoldDown) {
+            image(twgImageDown,playerX, playerY - 2)
+        }
+    }   
 function drawResources() { 
     for (var coords of obstacles) {
         image(obstacleImage,coords.x, coords.y, side, side);
     }
     for (var coords of gold) {
         image(goldImage,coords.x, coords.y, side, side);
+    }
+    for (var coords of energy) {
+        image(energyImage,coords.x, coords.y);
     }
 }
 function drawCamp() { 
@@ -26,7 +38,6 @@ function drawCamp() {
         image(campImageyellow,coords.x, coords.y);
     }
 }
-
 
 
 function Collision_right(coords) {

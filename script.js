@@ -7,10 +7,14 @@ var campImageblue;
 var campImagered;
 var campImagegreen;
 var campImageyellow;
-var twgImage;
+var twgImageLeft;
+var twgImageRight;
+var energyImage;
+var power = 10
 
 var side = 32;
 var obstacles = [{ x: 10 * side, y: 10 * side }];
+var energy = [{ x: 7 * side, y: 8 * side }];
 var gold = [{ x: 5 * side, y: 6 * side }];
 var campblue = [{ x: 0.5 * side, y: 13.5 * side }];
 var campred = [{ x: 13.5 * side, y: 13.5 * side }];
@@ -21,7 +25,10 @@ var campyellow = [{ x: 13.5 * side, y: 0.5 * side }];
 var playerX = 100;
 var playerY = 100;
 
-var playerHasGold = false;
+var playerHasGoldLeft = false;
+var playerHasGoldRight = false;
+var playerHasGoldUp = false;
+var playerHasGoldDown = false;
 
 function preload() {
     hudImage = loadImage('./Resources/hud.png');
@@ -33,7 +40,11 @@ function preload() {
     campImageyellow = loadImage('./Resources/camp_yellow.png')
     obstacleImage = loadImage('./Resources/obstacle.png')
     goldImage = loadImage('./Resources/gold.png')
-    twgImage = loadImage('./Resources/gold_1.png')
+    twgImageLeft = loadImage('./Resources/gold_1.png')
+    twgImageRight = loadImage('./Resources/gold_3.png')
+    twgImageUp = loadImage('./Resources/gold_2.png')
+    twgImageDown = loadImage('./Resources/gold_4.png')
+    energyImage = loadImage('./Resources/power.png')
 }
 
 function setup() {
@@ -72,8 +83,14 @@ function draw() {
         for (var i in gold) {
             var coords = gold[i];
             if (Collision_right(coords)) {
-                playerHasGold = true;
+                playerHasGoldRight = true;
                 gold.splice(i, 1);
+            }
+        }
+        for (var i in energy) {
+            var coords = energy[i];
+            if (Collision_right(coords)) {
+                energy.splice(i,1)
             }
         }
         playerX += 2;
@@ -98,7 +115,7 @@ function draw() {
         for (var i in gold) {
             var coords = gold[i];
             if (Collision_left(coords)) {
-                playerHasGold = true;
+                playerHasGoldLeft = true;
                 gold.splice(i, 1);
             }
         }
@@ -124,7 +141,7 @@ function draw() {
         for (var i in gold) {
             var coords = gold[i];
             if (Collision_up(coords)) {
-                playerHasGold = true;
+                playerHasGoldUp = true;
                 gold.splice(i, 1);
             }
         }
@@ -150,7 +167,7 @@ function draw() {
         for (var i in gold) {
             var coords = gold[i];
             if (Collision_down(coords)) {
-                playerHasGold = true;
+                playerHasGoldDown = true;
                 gold.splice(i, 1);
             }
         }
