@@ -12,6 +12,7 @@ function drawPlayer() {
     if (playerHasGoldDown) {
         image(twgImageDown, playerX + 1, playerY - 4)
     }
+   
 }
 function drawResources() {
     for (var coords of obstacles) {

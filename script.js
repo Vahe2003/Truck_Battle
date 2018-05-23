@@ -9,14 +9,15 @@ var campImagegreen;
 var campImageyellow;
 var twgImageLeft;
 var twgImageRight;
+var twgImageUp;
+var twgImageDown;
 var energyImage;
-var power = 10;
 var laserImage;
 var bgImage;
 
-
+var power = 10;
 var side = 32;
-var obstacles = [{ x: 10 * side, y: 10 * side }];
+var obstacles = [{ x: Math.floor(Math.random() * 512), y: Math.floor(Math.random() * 512)}];
 var energy = [{ x: 7 * side, y: 8 * side }];
 var gold = [{ x: 5 * side, y: 6 * side }];
 var campblue = [{ x: 0.5 * side, y: 13.5 * side }];
@@ -37,20 +38,20 @@ var playerHasGoldDown = false;
 function preload() {
     bgImage = loadImage('./Resources/bg.png');
     hudImage = loadImage('./Resources/hud.png');
-    grassImage = loadImage('./Resources/grass.png')
-    playerImage = loadImage('./Resources/player_blue_3.png')
-    campImageblue = loadImage('./Resources/camp_blue.png')
-    campImagered = loadImage('/Resources/camp_red.png')
-    campImagegreen = loadImage('/Resources/camp_green.png')
-    campImageyellow = loadImage('./Resources/camp_yellow.png')
-    obstacleImage = loadImage('./Resources/obstacle.png')
-    goldImage = loadImage('./Resources/gold.png')
-    twgImageLeft = loadImage('./Resources/gold_1.png')
-    twgImageRight = loadImage('./Resources/gold_3.png')
-    twgImageUp = loadImage('./Resources/gold_2.png')
-    twgImageDown = loadImage('./Resources/gold_4.png')
-    energyImage = loadImage('./Resources/power.png')
-    laserImage = loadImage('./Resources/laser1_1.png')
+    grassImage = loadImage('./Resources/grass.png');
+    playerImage = loadImage('./Resources/player_blue_3.png');
+    campImageblue = loadImage('./Resources/camp_blue.png');
+    campImagered = loadImage('/Resources/camp_red.png');
+    campImagegreen = loadImage('/Resources/camp_green.png');
+    campImageyellow = loadImage('./Resources/camp_yellow.png');
+    obstacleImage = loadImage('./Resources/obstacle.png');
+    goldImage = loadImage('./Resources/gold.png');
+    twgImageLeft = loadImage('./Resources/gold_1.png');
+    twgImageRight = loadImage('./Resources/gold_3.png');
+    twgImageUp = loadImage('./Resources/gold_2.png');
+    twgImageDown = loadImage('./Resources/gold_4.png');
+    energyImage = loadImage('./Resources/power.png');
+    laserImage = loadImage('./Resources/laser1_1.png');
    
 }
 
@@ -67,11 +68,9 @@ function draw() {
     drawResources();
 
     drawCamp();
-
     
-
     if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width - side)) {
-        playerImage = loadImage('./Resources/player_blue_3.png')
+        playerImage = loadImage('./Resources/player_blue_3.png')    
         for (var coords of obstacles) {
             if (Collision_right(coords)) return;
         }
