@@ -10,7 +10,10 @@ var campImageyellow;
 var twgImageLeft;
 var twgImageRight;
 var energyImage;
-var power = 10
+var power = 10;
+var laserImage;
+var bgImage;
+
 
 var side = 32;
 var obstacles = [{ x: 10 * side, y: 10 * side }];
@@ -25,12 +28,14 @@ var campyellow = [{ x: 13.5 * side, y: 0.5 * side }];
 var playerX = 100;
 var playerY = 100;
 
+
 var playerHasGoldLeft = false;
 var playerHasGoldRight = false;
 var playerHasGoldUp = false;
 var playerHasGoldDown = false;
 
 function preload() {
+    bgImage = loadImage('./Resources/bg.png');
     hudImage = loadImage('./Resources/hud.png');
     grassImage = loadImage('./Resources/grass.png')
     playerImage = loadImage('./Resources/player_blue_3.png')
@@ -45,6 +50,8 @@ function preload() {
     twgImageUp = loadImage('./Resources/gold_2.png')
     twgImageDown = loadImage('./Resources/gold_4.png')
     energyImage = loadImage('./Resources/power.png')
+    laserImage = loadImage('./Resources/laser1_1.png')
+   
 }
 
 function setup() {
@@ -118,6 +125,12 @@ function draw() {
                 playerHasGoldLeft = true;
                 gold.splice(i, 1);
             }
+            for (var i in energy) {
+                var coords = energy[i];
+                if (Collision_left(coords)) {
+                    energy.splice(i,1)
+                }
+            }
         }
         playerX -= 2;
     }
@@ -144,6 +157,12 @@ function draw() {
                 playerHasGoldUp = true;
                 gold.splice(i, 1);
             }
+            for (var i in energy) {
+                var coords = energy[i];
+                if (Collision_up(coords)) {
+                    energy.splice(i,1)
+                }
+            }
         }
         playerY -= 2;
     }
@@ -169,6 +188,12 @@ function draw() {
             if (Collision_down(coords)) {
                 playerHasGoldDown = true;
                 gold.splice(i, 1);
+            }
+            for (var i in energy) {
+                var coords = energy[i];
+                if (Collision_down(coords)) {
+                    energy.splice(i,1)
+                }
             }
         }
         playerY += 2;

@@ -1,41 +1,41 @@
-function drawPlayer() { 
-    image(playerImage, playerX,playerY);
-        if (playerHasGoldLeft) {
-            image(twgImageLeft,playerX + 2, playerY + 1)
-        }
-        if (playerHasGoldRight) {
-            image(twgImageRight,playerX, playerY)
-        }
-        if (playerHasGoldUp) {
-            image(twgImageUp,playerX, playerY)
-        }
-        if (playerHasGoldDown) {
-            image(twgImageDown,playerX, playerY - 2)
-        }
-    }   
-function drawResources() { 
-    for (var coords of obstacles) {
-        image(obstacleImage,coords.x, coords.y, side, side);
+function drawPlayer() {
+    image(playerImage, playerX, playerY);
+    if (playerHasGoldLeft) {
+        image(twgImageLeft, playerX + 2, playerY + 1)
     }
-    for (var coords of gold) {
-        image(goldImage,coords.x, coords.y, side, side);
+    if (playerHasGoldRight) {
+        image(twgImageRight, playerX, playerY)
     }
-    for (var coords of energy) {
-        image(energyImage,coords.x, coords.y);
+    if (playerHasGoldUp) {
+        image(twgImageUp, playerX, playerY)
+    }
+    if (playerHasGoldDown) {
+        image(twgImageDown, playerX + 1, playerY - 4)
     }
 }
-function drawCamp() { 
+function drawResources() {
+    for (var coords of obstacles) {
+        image(obstacleImage, coords.x, coords.y, side, side);
+    }
+    for (var coords of gold) {
+        image(goldImage, coords.x, coords.y, side, side);
+    }
+    for (var coords of energy) {
+        image(energyImage, coords.x, coords.y, side, side);
+    }
+}
+function drawCamp() {
     for (var coords of campblue) {
-        image(campImageblue,coords.x, coords.y);
+        image(campImageblue, coords.x, coords.y);
     }
     for (var coords of campred) {
-        image(campImagered,coords.x, coords.y);
+        image(campImagered, coords.x, coords.y);
     }
     for (var coords of campgreen) {
-        image(campImagegreen,coords.x, coords.y);
+        image(campImagegreen, coords.x, coords.y);
     }
     for (var coords of campyellow) {
-        image(campImageyellow,coords.x, coords.y);
+        image(campImageyellow, coords.x, coords.y);
     }
 }
 
@@ -51,7 +51,7 @@ function Collision_right(coords) {
     var objectOY = obstacleY + (side / 2);
 
     if (objectOX - playerOX <= side && objectOX - playerOX >= 0) {
-        
+
         if (Math.abs(playerOY - objectOY) < side) {
             return true;
         }
@@ -97,7 +97,7 @@ function Collision_up(coords) {
     return false;
 }
 
-    function Collision_down(coords) {
+function Collision_down(coords) {
     var obstacleX = coords.x;
     var obstacleY = coords.y;
 
@@ -113,29 +113,29 @@ function Collision_up(coords) {
         }
     }
     return false;
-    }
+}
 
-    //camp collision 
+//camp collision 
 
 
 
-    function Collision_down_camp(coords) {
+function Collision_down_camp(coords) {
     var campX = coords.x;
     var campY = coords.y;
-    
+
     var playerOX = playerX + (side / 2);
     var playerOY = playerY + (side / 2);
-    
+
     var campOX = campX + (side / 2);
     var campOY = campY + (side / 2);
-    
-    if(campOY - playerOY <= side && campOY - playerOY >= 0) {
-        
-        if(Math.abs(playerOX - campOX) < side * 2) {
+
+    if (campOY - playerOY <= side && campOY - playerOY >= 0) {
+
+        if (Math.abs(playerOX - campOX) < side * 2) {
             return true;
         }
     }
-  return false;
+    return false;
 }
 
 
@@ -174,23 +174,23 @@ function Collision_up_camp(coords) {
         }
     }
     return false;
-    }
+}
 
 function Collision_right_camp(coords) {
-var campX = coords.x;
-var campY = coords.y;
+    var campX = coords.x;
+    var campY = coords.y;
 
-var playerOX = playerX + (side / 2);
-var playerOY = playerY + (side / 2);
+    var playerOX = playerX + (side / 2);
+    var playerOY = playerY + (side / 2);
 
-var campOX = campX + (side / 2);
-var campOY = campY + (side / 2);
+    var campOX = campX + (side / 2);
+    var campOY = campY + (side / 2);
 
-if (campOX - playerOX <= side && campOX - playerOX >= 32) {
-    
-    if (Math.abs(playerOY - campOY) < side * 2) {
-        return true;
+    if (campOX - playerOX <= side && campOX - playerOX >= 32) {
+
+        if (Math.abs(playerOY - campOY) < side * 2) {
+            return true;
+        }
     }
-}
-return false;
+    return false;
 }
