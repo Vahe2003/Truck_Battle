@@ -17,9 +17,28 @@ var bgImage;
 
 var power = 10;
 var side = 32;
-var obstacles = [{ x: Math.floor(Math.random() * 512), y: Math.floor(Math.random() * 512)}];
-var energy = [{ x: 7 * side, y: 8 * side }];
-var gold = [{ x: 5 * side, y: 6 * side }];
+
+var obstacles = [];
+var energy = [];
+var gold = [];
+
+for (var i = 0; i < 8;i++) {
+    
+        obstacles.push({ x: Math.floor(Math.random()* 466), y: Math.floor(Math.random() * 468) })
+        energy.push({ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468) })
+        gold.push({ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468) })  
+
+       
+    
+}
+
+
+/*var obstacles = [{ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468)}];
+var energy = [{ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468)}];
+var gold =  [{ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468)}];*/
+
+//var energy = [{ x: 7 * side, y: 8 * side }];
+//var gold = [{ x: 5 * side, y: 6 * side }];
 var campblue = [{ x: 0.5 * side, y: 13.5 * side }];
 var campred = [{ x: 13.5 * side, y: 13.5 * side }];
 var campgreen = [{ x: 0.5 * side, y: 0.5 * side }];
@@ -52,7 +71,7 @@ function preload() {
     twgImageDown = loadImage('./Resources/gold_4.png');
     energyImage = loadImage('./Resources/power.png');
     laserImage = loadImage('./Resources/laser1_1.png');
-   
+
 }
 
 function setup() {
@@ -65,18 +84,18 @@ function draw() {
 
     drawPlayer();
 
+    drawCamp();
+
     drawResources();
 
-    drawCamp();
-    
     if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width - side)) {
-        playerImage = loadImage('./Resources/player_blue_3.png')    
+        playerImage = loadImage('./Resources/player_blue_3.png')
         for (var coords of obstacles) {
             if (Collision_right(coords)) return;
         }
         for (var coords of campblue) {
             if (Collision_right_camp(coords)) return;
-        } 
+        }
         for (var coords of campred) {
             if (Collision_right_camp(coords)) return;
         }
@@ -96,7 +115,7 @@ function draw() {
         for (var i in energy) {
             var coords = energy[i];
             if (Collision_right(coords)) {
-                energy.splice(i,1)
+                energy.splice(i, 1)
             }
         }
         playerX += 2;
@@ -127,7 +146,7 @@ function draw() {
             for (var i in energy) {
                 var coords = energy[i];
                 if (Collision_left(coords)) {
-                    energy.splice(i,1)
+                    energy.splice(i, 1)
                 }
             }
         }
@@ -159,7 +178,7 @@ function draw() {
             for (var i in energy) {
                 var coords = energy[i];
                 if (Collision_up(coords)) {
-                    energy.splice(i,1)
+                    energy.splice(i, 1)
                 }
             }
         }
@@ -191,7 +210,7 @@ function draw() {
             for (var i in energy) {
                 var coords = energy[i];
                 if (Collision_down(coords)) {
-                    energy.splice(i,1)
+                    energy.splice(i, 1)
                 }
             }
         }

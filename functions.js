@@ -14,7 +14,13 @@ function drawPlayer() {
     }
    
 }
-function drawResources() {
+
+    
+    
+
+
+function drawResources() { 
+
     for (var coords of obstacles) {
         image(obstacleImage, coords.x, coords.y, side, side);
     }
