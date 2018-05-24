@@ -12,8 +12,13 @@ var twgImageRight;
 var twgImageUp;
 var twgImageDown;
 var energyImage;
-var laserImage;
+var laserImageright;
+var laserImageleft;
+var laserImageup;
+var laserImagedown;
 var bgImage;
+var playerDirection = "right"
+
 
 var power = 10;
 var side = 32;
@@ -22,27 +27,21 @@ var obstacles = [];
 var energy = [];
 var gold = [];
 
-for (var i = 0; i < 8;i++) {
-    
-        obstacles.push({ x: Math.floor(Math.random()* 466), y: Math.floor(Math.random() * 468) })
-        energy.push({ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468) })
-        gold.push({ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468) })  
+for (var i = 0; i < 8; i++) {
 
-       
-    
+    obstacles.push({ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468) })
+    energy.push({ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468) })
+    gold.push({ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468) })
+
+
+
 }
 
-
-/*var obstacles = [{ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468)}];
-var energy = [{ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468)}];
-var gold =  [{ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468)}];*/
-
-//var energy = [{ x: 7 * side, y: 8 * side }];
-//var gold = [{ x: 5 * side, y: 6 * side }];
 var campblue = [{ x: 0.5 * side, y: 13.5 * side }];
 var campred = [{ x: 13.5 * side, y: 13.5 * side }];
 var campgreen = [{ x: 0.5 * side, y: 0.5 * side }];
 var campyellow = [{ x: 13.5 * side, y: 0.5 * side }];
+var laser = [{ x: 13.5 * side, y: 0.5 * side }];
 
 
 var playerX = 100;
@@ -70,9 +69,13 @@ function preload() {
     twgImageUp = loadImage('./Resources/gold_2.png');
     twgImageDown = loadImage('./Resources/gold_4.png');
     energyImage = loadImage('./Resources/power.png');
-    laserImage = loadImage('./Resources/laser1_1.png');
+    laserImageright = loadImage('./Resources/laser1_1.png');
+    laserImageleft = loadImage('./Resources/laser1_3.png');
+    laserImageup = loadImage('./Resources/laser1_2.png');
+    laserImagedown = loadImage('./Resources/laser1_4.png');
 
 }
+
 
 function setup() {
     createCanvas(side * 16, side * 16);
@@ -88,7 +91,10 @@ function draw() {
 
     drawResources();
 
+    Shoot();
+
     if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width - side)) {
+        playerDirection = "right"
         playerImage = loadImage('./Resources/player_blue_3.png')
         for (var coords of obstacles) {
             if (Collision_right(coords)) return;
@@ -121,6 +127,7 @@ function draw() {
         playerX += 2;
     }
     else if ((keyIsDown(LEFT_ARROW) || keyIsDown(65)) && playerX > 0) {
+        playerDirection = "left"
         playerImage = loadImage('./Resources/player_blue_1.png')
         for (var coords of obstacles) {
             if (Collision_left(coords)) return;
@@ -153,6 +160,7 @@ function draw() {
         playerX -= 2;
     }
     else if ((keyIsDown(UP_ARROW) || keyIsDown(87)) && playerY > 0) {
+        playerDirection = "up"
         playerImage = loadImage('./Resources/player_blue_2.png')
         for (var coords of obstacles) {
             if (Collision_up(coords)) return;
@@ -185,6 +193,7 @@ function draw() {
         playerY -= 2;
     }
     else if ((keyIsDown(DOWN_ARROW) || keyIsDown(83)) && playerY < (height - side)) {
+        playerDirection = "down"
         playerImage = loadImage('./Resources/player_blue_4.png')
         for (var coords of obstacles) {
             if (Collision_down(coords)) return;
