@@ -27,25 +27,24 @@ var obstacles = [];
 var energy = [];
 var gold = [];
 
-for (var i = 0; i < 8; i++) {
-
-    obstacles.push({ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468) })
-    energy.push({ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468) })
-    gold.push({ x: Math.floor(Math.random() * 466), y: Math.floor(Math.random() * 468) })
-
-
-
+for (var i = 0; i < 9; i++) {
+    obstacles.push({ x: Math.floor(Math.random() * 448), y: Math.floor(Math.random() * 448) })
+    energy.push({ x: Math.floor(Math.random() * 448), y: Math.floor(Math.random() * 448) })
+    gold.push({ x: Math.floor(Math.random() * 448), y: Math.floor(Math.random() * 448) })
 }
+
+
+
 
 var campblue = [{ x: 0.5 * side, y: 13.5 * side }];
 var campred = [{ x: 13.5 * side, y: 13.5 * side }];
 var campgreen = [{ x: 0.5 * side, y: 0.5 * side }];
 var campyellow = [{ x: 13.5 * side, y: 0.5 * side }];
-var laser = [{ x: 13.5 * side, y: 0.5 * side }];
+var laser = [{ x: playerX, y: playerY}];
 
 
 var playerX = 100;
-var playerY = 100;
+var playerY = 450;
 
 
 var playerHasGoldLeft = false;
@@ -92,6 +91,7 @@ function draw() {
     drawResources();
 
     Shoot();
+
 
     if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width - side)) {
         playerDirection = "right"
