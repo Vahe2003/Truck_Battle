@@ -28,9 +28,9 @@ var energy = [];
 var gold = [];
 
 for (var i = 0; i < 9; i++) {
-    obstacles.push({ x: Math.floor(Math.random() * 448), y: Math.floor(Math.random() * 448) })
-    energy.push({ x: Math.floor(Math.random() * 448), y: Math.floor(Math.random() * 448) })
-    gold.push({ x: Math.floor(Math.random() * 448), y: Math.floor(Math.random() * 448) })
+    obstacles.push({ x: Math.floor(Math.random() * 468), y: Math.floor(Math.random() * 488) })
+    energy.push({ x: Math.floor(Math.random() * 468), y: Math.floor(Math.random() * 488) })
+    gold.push({ x: Math.floor(Math.random() * 468), y: Math.floor(Math.random() * 488) })
 }
 
 

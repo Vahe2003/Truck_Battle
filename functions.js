@@ -12,10 +12,10 @@ function drawPlayer() {
     if (playerHasGoldDown) {
         image(twgImageDown, playerX + 1, playerY - 4)
     }
-   
+
 }
 
-function drawResources() { 
+function drawResources() {
 
     for (var coords of obstacles) {
         image(obstacleImage, coords.x, coords.y, side, side);
@@ -27,7 +27,7 @@ function drawResources() {
         image(energyImage, coords.x, coords.y, side, side);
     }
 }
-function Shoot(){
+function Shoot() {
     if ((keyIsDown(81) && playerDirection == "right")) {
         console.log("shooted")
         for (var coords of laser) {
@@ -36,7 +36,7 @@ function Shoot(){
             image(laserImageright, coords.x + 30, coords.y, side, side);
         }
 
-    }   
+    }
     if ((keyIsDown(81) && playerDirection == "left")) {
         console.log("shooted")
         for (var coords of laser) {
@@ -45,7 +45,7 @@ function Shoot(){
             image(laserImageleft, coords.x - 30, coords.y, side, side);
         }
 
-    }   
+    }
     if ((keyIsDown(81) && playerDirection == "up")) {
         console.log("shooted")
         for (var coords of laser) {
@@ -54,14 +54,14 @@ function Shoot(){
             image(laserImageup, coords.x, coords.y - 30, side, side);
         }
 
-    }   
+    }
     if ((keyIsDown(81) && playerDirection == "down")) {
         console.log("shooted")
         for (var coords of laser) {
             image(laserImagedown, coords.x, coords.y + 30, side, side);
         }
         coords.y += 2;
-    }   
+    }
 }
 function drawCamp() {
     for (var coords of campblue) {
@@ -78,19 +78,19 @@ function drawCamp() {
     }
 }
 
-function ScoreUp(){
-if(playerHasGoldDown){
-         playerHasGoldDown = false;
-}
-  if(playerHasGoldLeft){
-         playerHasGoldLeft = false;
-}
-if(playerHasGoldRight){
-    playerHasGoldRight = false;
-}
-if(playerHasGoldUp){
-    playerHasGoldUp = false;
-}
+function ScoreUp() {
+    if (playerHasGoldDown) {
+        playerHasGoldDown = false;
+    }
+    if (playerHasGoldLeft) {
+        playerHasGoldLeft = false;
+    }
+    if (playerHasGoldRight) {
+        playerHasGoldRight = false;
+    }
+    if (playerHasGoldUp) {
+        playerHasGoldUp = false;
+    }
 }
 
 
@@ -180,13 +180,13 @@ function Collision_down_camp(coords) {
     var playerOX = playerX + (side / 2);
     var playerOY = playerY + (side / 2);
 
-    var campOX = campX + (side / 2);
-    var campOY = campY + (side / 2);
+    var campOX = campX + side;
+    var campOY = campY + side;
 
-    if (campOY - playerOY <= side && campOY - playerOY >= 0) {
-        ScoreUp();
+    if (campOY - playerOY <= 48 && campOY - playerOY >= 0) {
 
-        if (Math.abs(playerOX - campOX) < side * 2) {
+        if (Math.abs(playerOX - campOX) < 48) {
+            ScoreUp();
             return true;
         }
     }
@@ -202,12 +202,12 @@ function Collision_left_camp(coords) {
     var playerOX = playerX + (side / 2);
     var playerOY = playerY + (side / 2);
 
-    var campOX = campX + (side / 2);
-    var campOY = campY + (side / 2);
+    var campOX = campX + (side);
+    var campOY = campY + (side);
 
-    if (playerOX - campOX <= side * 2 && playerOX - campOX >= 32) {
-        ScoreUp();
-        if (Math.abs(playerOY - campOY) < 50) {
+    if (playerOX - campOX <= 48 && playerOX - campOX >= 0) {
+        if (Math.abs(playerOY - campOY) < 48) {
+            ScoreUp();
             return true;
         }
     }
@@ -222,12 +222,12 @@ function Collision_up_camp(coords) {
     var playerOX = playerX + (side / 2);
     var playerOY = playerY + (side / 2);
 
-    var campOX = campX + (side / 2);
-    var campOY = campY + (side / 2);
+    var campOX = campX + (side);
+    var campOY = campY + (side);
 
-    if (playerOY - campOY <= side * 2 && playerOY - campOY >= 0) {
-        ScoreUp();
-        if (Math.abs(playerOX - campOX) < side * 2) {
+    if (playerOY - campOY <= 48 && playerOY - campOY >= 0) {
+        if (Math.abs(playerOX - campOX) < 48) {
+            ScoreUp();
             return true;
         }
     }
@@ -241,12 +241,12 @@ function Collision_right_camp(coords) {
     var playerOX = playerX + (side / 2);
     var playerOY = playerY + (side / 2);
 
-    var campOX = campX + (side / 2);
-    var campOY = campY + (side / 2);
+    var campOX = campX + (side);
+    var campOY = campY + (side);
 
-    if (campOX - playerOX <= side && campOX - playerOX >= 32) {
-        ScoreUp();
-        if (Math.abs(playerOY - campOY) < side * 2) {
+    if (campOX - playerOX <= 48 && campOX - playerOX >= 0) {
+        if (Math.abs(playerOY - campOY) < 48) {
+            ScoreUp();
             return true;
         }
     }
