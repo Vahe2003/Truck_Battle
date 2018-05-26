@@ -1,3 +1,12 @@
+var socket = io();
+var config = {};
+
+var players;
+var obstacles;
+var energy;
+var gold;
+var gameStarted = false;
+
 var hudImage;
 var grassImage;
 var playerImage;
@@ -22,80 +31,82 @@ var playerDirection = "right"
 
 var power = 10;
 var side = 32;
+var score = 0;
 
 var obstacles = [];
 var energy = [];
 var gold = [];
-
+/*
 for (var i = 0; i < 9; i++) {
-    obstacles.push({ x: Math.floor(Math.random() * 468), y: Math.floor(Math.random() * 488) })
-    energy.push({ x: Math.floor(Math.random() * 468), y: Math.floor(Math.random() * 488) })
-    gold.push({ x: Math.floor(Math.random() * 468), y: Math.floor(Math.random() * 488) })
-}
+    obstacles.push({ x: Math.floor(Math.random() * 512), y: Math.floor(Math.random() * 512) })
+    energy.push({ x: Math.floor(Math.random() * 512), y: Math.floor(Math.random() * 512) })
+    gold.push({ x: Math.floor(Math.random() * 512), y: Math.floor(Math.random() * 512) })
+}*/
 
 
 
-
+/*
 var campblue = [{ x: 0.5 * side, y: 13.5 * side }];
 var campred = [{ x: 13.5 * side, y: 13.5 * side }];
 var campgreen = [{ x: 0.5 * side, y: 0.5 * side }];
 var campyellow = [{ x: 13.5 * side, y: 0.5 * side }];
-var laser = [{ x: playerX, y: playerY}];
+var laser = [{ x: playerX, y: playerY}];*/
 
 
-var playerX = 100;
-var playerY = 450;
+var playerX;
+var playerY;
 
-
-var playerHasGoldLeft = false;
-var playerHasGoldRight = false;
-var playerHasGoldUp = false;
-var playerHasGoldDown = false;
+var playerHasGold = false;
 
 function preload() {
     bgImage = loadImage('./Resources/bg.png');
     hudImage = loadImage('./Resources/hud.png');
     grassImage = loadImage('./Resources/grass.png');
     playerImage = loadImage('./Resources/player_blue_3.png');
+    /*
     campImageblue = loadImage('./Resources/camp_blue.png');
     campImagered = loadImage('/Resources/camp_red.png');
     campImagegreen = loadImage('/Resources/camp_green.png');
-    campImageyellow = loadImage('./Resources/camp_yellow.png');
+    campImageyellow = loadImage('./Resources/camp_yellow.png');*/
     obstacleImage = loadImage('./Resources/obstacle.png');
-    goldImage = loadImage('./Resources/gold.png');
+    goldImage = loadImage('./Resources/gold.png');/*
     twgImageLeft = loadImage('./Resources/gold_1.png');
     twgImageRight = loadImage('./Resources/gold_3.png');
     twgImageUp = loadImage('./Resources/gold_2.png');
-    twgImageDown = loadImage('./Resources/gold_4.png');
-    energyImage = loadImage('./Resources/power.png');
+    twgImageDown = loadImage('./Resources/gold_4.png');*/
+    energyImage = loadImage('./Resources/power.png');/*
     laserImageright = loadImage('./Resources/laser1_1.png');
     laserImageleft = loadImage('./Resources/laser1_3.png');
     laserImageup = loadImage('./Resources/laser1_2.png');
-    laserImagedown = loadImage('./Resources/laser1_4.png');
+    laserImagedown = loadImage('./Resources/laser1_4.png');*/
 
 }
 
 
 function setup() {
-    createCanvas(side * 16, side * 16);
+    createCanvas(side * 32, side * 30);
 }
 
 function draw() {
-    image(hudImage, 0, 0, width, height);
-    image(grassImage, 16, 16, width - 32, height - 32);
+    if (gameStarted) {
+
+    /*image(hudImage, 0, 0, width, height);
+    image(grassImage, 16, 16, width - 32, height - 32);*/
+
+    background("#acacac")
 
     drawPlayer();
 
-    drawCamp();
+    //drawCamp();
 
     drawResources();
 
-    Shoot();
+    //Shoot();
 
 
     if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width - side)) {
         playerDirection = "right"
-        playerImage = loadImage('./Resources/player_blue_3.png')
+        //playerImage = loadImage('./Resources/player_blue_3.png')
         for (var coords of obstacles) {
             if (Collision_right(coords)) return;
         }
@@ -114,8 +125,10 @@ function draw() {
         for (var i in gold) {
             var coords = gold[i];
             if (Collision_right(coords)) {
-                playerHasGoldRight = true;
+                if(playerHasGold) return;
+                playerHasGold = true;
                 gold.splice(i, 1);
+                socket.emit('splice gold', i);
             }
         }
         for (var i in energy) {
@@ -125,6 +138,7 @@ function draw() {
             }
         }
         playerX += 2;
+        socket.emit('move', {x: playerX, y: playerY, color: config.color, hasGold: playerHasGold});
     }
     else if ((keyIsDown(LEFT_ARROW) || keyIsDown(65)) && playerX > 0) {
         playerDirection = "left"
@@ -147,8 +161,11 @@ function draw() {
         for (var i in gold) {
             var coords = gold[i];
             if (Collision_left(coords)) {
-                playerHasGoldLeft = true;
+                if(playerHasGold) return;
+                playerHasGold = true;
                 gold.splice(i, 1);
+                socket.emit('splice gold', i);
+            }
             }
             for (var i in energy) {
                 var coords = energy[i];
@@ -156,12 +173,12 @@ function draw() {
                     energy.splice(i, 1)
                 }
             }
-        }
         playerX -= 2;
+        socket.emit('move', {x: playerX, y: playerY, color: config.color, hasGold: playerHasGold});
     }
     else if ((keyIsDown(UP_ARROW) || keyIsDown(87)) && playerY > 0) {
         playerDirection = "up"
-        playerImage = loadImage('./Resources/player_blue_2.png')
+        //playerImage = loadImage('./Resources/player_blue_2.png')
         for (var coords of obstacles) {
             if (Collision_up(coords)) return;
         }
@@ -180,8 +197,11 @@ function draw() {
         for (var i in gold) {
             var coords = gold[i];
             if (Collision_up(coords)) {
-                playerHasGoldUp = true;
+                if(playerHasGold) return;
+                playerHasGold = true;
                 gold.splice(i, 1);
+                socket.emit('splice gold', i);
+            }
             }
             for (var i in energy) {
                 var coords = energy[i];
@@ -189,12 +209,12 @@ function draw() {
                     energy.splice(i, 1)
                 }
             }
-        }
         playerY -= 2;
+        socket.emit('move', {x: playerX, y: playerY, color: config.color, hasGold: playerHasGold});
     }
     else if ((keyIsDown(DOWN_ARROW) || keyIsDown(83)) && playerY < (height - side)) {
         playerDirection = "down"
-        playerImage = loadImage('./Resources/player_blue_4.png')
+        //playerImage = loadImage('./Resources/player_blue_4.png')
         for (var coords of obstacles) {
             if (Collision_down(coords)) return;
         }
@@ -213,16 +233,46 @@ function draw() {
         for (var i in gold) {
             var coords = gold[i];
             if (Collision_down(coords)) {
-                playerHasGoldDown = true;
+                if(playerHasGold) return;
+                playerHasGold = true;
                 gold.splice(i, 1);
+                socket.emit('splice gold', i);
             }
+        }
             for (var i in energy) {
                 var coords = energy[i];
                 if (Collision_down(coords)) {
                     energy.splice(i, 1)
                 }
             }
-        }
         playerY += 2;
+        socket.emit('move', {x: playerX, y: playerY, color: config.color, hasGold: playerHasGold});
     }
+}
+else {
+        background("#acacac");
+        textSize(48);
+        text('Waiting for players to join the game', 30, 60);
+    }
+
+socket.on('game started', function (data) {
+    gameStarted = true;
+    gold = data.gold;
+    energy = data.energy;
+    obstacles = data.obstacles;
+    players = data.players;
+});
+
+socket.on('config data', function(data) {
+    config =  data;
+    playerX = config.x;
+    playerY = config.y;
+});
+
+socket.on('main data', function(data) {
+    gold = data.gold;
+    energy = data.energy;
+    obstacles = data.obstacles;
+    players = data.players;
+});
 }

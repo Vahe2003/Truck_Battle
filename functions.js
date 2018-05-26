@@ -1,6 +1,6 @@
 function drawPlayer() {
-    image(playerImage, playerX, playerY);
-    if (playerHasGoldLeft) {
+    //image(playerImage, playerX, playerY);
+    /*if (playerHasGoldLeft) {
         image(twgImageLeft, playerX + 2, playerY + 1)
     }
     if (playerHasGoldRight) {
@@ -11,6 +11,14 @@ function drawPlayer() {
     }
     if (playerHasGoldDown) {
         image(twgImageDown, playerX + 1, playerY - 4)
+    }*/
+    for(var i in players) {
+        fill(players[i].color);
+        rect(players[i].x, players[i].y, side, side);
+        if (players[i].hasGold) {
+            fill(255, 223, 0); // Gold's color
+            rect(players[i].x + (side / 8), players[i].y + (side / 8), side - (side / 4), side - (side / 4));
+        }
     }
 
 }
@@ -26,7 +34,7 @@ function drawResources() {
     for (var coords of energy) {
         image(energyImage, coords.x, coords.y, side, side);
     }
-}
+}/*
 function Shoot() {
     if ((keyIsDown(81) && playerDirection == "right")) {
         console.log("shooted")
@@ -77,21 +85,25 @@ function drawCamp() {
         image(campImageyellow, coords.x, coords.y);
     }
 }
-
 function ScoreUp() {
     if (playerHasGoldDown) {
         playerHasGoldDown = false;
+        score++    
+        console.log(score)
     }
     if (playerHasGoldLeft) {
         playerHasGoldLeft = false;
+        score++   
     }
     if (playerHasGoldRight) {
         playerHasGoldRight = false;
+        score++   
     }
     if (playerHasGoldUp) {
         playerHasGoldUp = false;
+        score++   
     }
-}
+}*/
 
 
 function Collision_right(coords) {
@@ -105,15 +117,12 @@ function Collision_right(coords) {
     var objectOY = obstacleY + (side / 2);
 
     if (objectOX - playerOX <= side && objectOX - playerOX >= 0) {
-
         if (Math.abs(playerOY - objectOY) < side) {
             return true;
         }
     }
     return false;
 }
-
-
 
 function Collision_left(coords) {
     var obstacleX = coords.x;
@@ -168,11 +177,10 @@ function Collision_down(coords) {
     }
     return false;
 }
-
 //camp collision 
 
 
-
+/*
 function Collision_down_camp(coords) {
     var campX = coords.x;
     var campY = coords.y;
@@ -251,4 +259,4 @@ function Collision_right_camp(coords) {
         }
     }
     return false;
-}
+}*/
