@@ -199,3 +199,76 @@ function Collision_right_camp(coords) {
     }
     return false;
 }
+
+//////////////////////////////////////////////////////////////
+
+function Collision_End_up(coords) {
+    var endX = coords.x;
+    var endY = coords.y;
+
+    var playerOX = playerX + (side / 2);
+    var playerOY = playerY + (side / 2);
+
+    var endOX = endX + side;
+    var endOY = endY + side;
+
+    if (playerOY - endOY <= 10  && endOY - playerOY >= 0) {
+        if (Math.abs(playerOX - endOX) < 1024) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function Collision_End_down(coords) {
+    var endX = coords.x;
+    var endY = coords.y;
+
+    var playerOX = playerX + (side / 2);
+    var playerOY = playerY + (side / 2);
+
+    var endOX = endX + side;
+    var endOY = endY + side;
+
+    if (endOY - playerOY <= 10 && endOY - playerOY >= 0) {
+
+        if (Math.abs(playerOX - endOX) < 1024) {
+            return true;
+        }
+    }
+    return false;
+}
+function Collision_End_right(coords) {
+    var endX = coords.x;
+    var endY = coords.y;
+
+    var playerOX = playerX + (side / 2);
+    var playerOY = playerY + (side / 2);
+
+    var endOX = endX + side;
+    var endOY = endY + side;
+
+    if (endOX - playerOX <= 58 && endOX - playerOX >= 0) {
+        if (Math.abs(playerOY - endOY) < 1024) {
+            return true;
+        }
+    }
+    return false;
+}
+function Collision_End_left(coords) {
+    var endX = coords.x;
+    var endY = coords.y;
+
+    var playerOX = playerX + (side / 2);
+    var playerOY = playerY + (side / 2);
+
+    var endOX = endX + (side);
+    var endOY = endY + (side);
+
+    if (endOX - playerOX <= 1008 && endOX - playerOX >= 0) {
+        if (Math.abs(playerOY - endOY) < 1024) {
+            return true;
+        }
+    }
+    return false;
+}

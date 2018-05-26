@@ -30,10 +30,14 @@ var obstacles = [];
 var energy = [];
 var gold = [];
 
+var endup = [{x: 32, y: 0}];
+var enddown = [{x: 16, y: 905}];
+var endright = [{x: 1014, y: 905}];
+var endleft = [{x: 0, y: 0}];
 
 var campblue = [{ x: 16, y: 880 }];
-var campred = [{ x: 945, y:16}];
-var campgreen = [{ x: 16, y: 16}];
+var campgreen = [{ x: 945, y: 16}];
+var campred = [{ x: 16, y: 16}];
 var campyellow = [{ x: 945, y: 880}];
 
 
@@ -95,6 +99,9 @@ function draw() {
         for (var coords of campyellow) {
             if (Collision_right_camp(coords)) return;
         }
+        for (var coords of endright) {
+            if (Collision_End_right(coords)) return;
+        }
         for (var i in gold) {
             var coords = gold[i];
             if (Collision_right(coords)) {
@@ -111,7 +118,7 @@ function draw() {
                 socket.emit('splice energy', i);
             }
         }
-        playerX += 2;
+        playerX += 3;
         socket.emit('move', {x: playerX, y: playerY, color: config.color, hasGold: playerHasGold});
     }
     else if ((keyIsDown(LEFT_ARROW) || keyIsDown(65)) && playerX > 0) {
@@ -132,6 +139,9 @@ function draw() {
         for (var coords of campyellow) {
             if (Collision_left_camp(coords)) return;
         }
+        for (var coords of endleft) {
+            if (Collision_End_left(coords)) return;
+        }
         for (var i in gold) {
             var coords = gold[i];
             if (Collision_left(coords)) {
@@ -148,7 +158,7 @@ function draw() {
                     socket.emit('splice energy', i);
                 }
             }
-        playerX -= 2;
+        playerX -= 3;
         socket.emit('move', {x: playerX, y: playerY, color: config.color, hasGold: playerHasGold});
     }
     else if ((keyIsDown(UP_ARROW) || keyIsDown(87)) && playerY > 0) {
@@ -169,6 +179,9 @@ function draw() {
         for (var coords of campyellow) {
             if (Collision_up_camp(coords)) return;
         }
+        for (var coords of endup) {
+            if(Collision_End_up(coords)) return;
+        }
         for (var i in gold) {
             var coords = gold[i];
             if (Collision_up(coords)) {
@@ -185,7 +198,7 @@ function draw() {
                     socket.emit('splice energy', i);
                 }
             }
-        playerY -= 2;
+        playerY -= 3;
         socket.emit('move', {x: playerX, y: playerY, color: config.color, hasGold: playerHasGold});
     }
     else if ((keyIsDown(DOWN_ARROW) || keyIsDown(83)) && playerY < (height - side)) {
@@ -206,6 +219,9 @@ function draw() {
         for (var coords of campyellow) {
             if (Collision_down_camp(coords)) return;
         }
+        for (var coords of enddown) {
+            if (Collision_End_down(coords)) return;
+        }
         for (var i in gold) {
             var coords = gold[i];
             if (Collision_down(coords)) {
@@ -222,7 +238,7 @@ function draw() {
                     socket.emit('splice energy', i);
                 }
             }
-        playerY += 2;
+        playerY += 3;
         socket.emit('move', {x: playerX, y: playerY, color: config.color, hasGold: playerHasGold});
     }
 }
