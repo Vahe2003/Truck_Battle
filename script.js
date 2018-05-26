@@ -16,15 +16,8 @@ var campImageblue;
 var campImagered;
 var campImagegreen;
 var campImageyellow;
-var twgImageLeft;
-var twgImageRight;
-var twgImageUp;
-var twgImageDown;
+var twgImage;
 var energyImage;
-var laserImageright;
-var laserImageleft;
-var laserImageup;
-var laserImagedown;
 var bgImage;
 var playerDirection = "right"
 
@@ -36,21 +29,17 @@ var score = 0;
 var obstacles = [];
 var energy = [];
 var gold = [];
-/*
+
 for (var i = 0; i < 9; i++) {
     obstacles.push({ x: Math.floor(Math.random() * 512), y: Math.floor(Math.random() * 512) })
     energy.push({ x: Math.floor(Math.random() * 512), y: Math.floor(Math.random() * 512) })
     gold.push({ x: Math.floor(Math.random() * 512), y: Math.floor(Math.random() * 512) })
-}*/
+}
 
-
-
-/*
 var campblue = [{ x: 0.5 * side, y: 13.5 * side }];
 var campred = [{ x: 13.5 * side, y: 13.5 * side }];
 var campgreen = [{ x: 0.5 * side, y: 0.5 * side }];
 var campyellow = [{ x: 13.5 * side, y: 0.5 * side }];
-var laser = [{ x: playerX, y: playerY}];*/
 
 
 var playerX;
@@ -63,22 +52,14 @@ function preload() {
     hudImage = loadImage('./Resources/hud.png');
     grassImage = loadImage('./Resources/grass.png');
     playerImage = loadImage('./Resources/player_blue_3.png');
-    /*
     campImageblue = loadImage('./Resources/camp_blue.png');
     campImagered = loadImage('/Resources/camp_red.png');
     campImagegreen = loadImage('/Resources/camp_green.png');
-    campImageyellow = loadImage('./Resources/camp_yellow.png');*/
+    campImageyellow = loadImage('./Resources/camp_yellow.png');
     obstacleImage = loadImage('./Resources/obstacle.png');
-    goldImage = loadImage('./Resources/gold.png');/*
-    twgImageLeft = loadImage('./Resources/gold_1.png');
-    twgImageRight = loadImage('./Resources/gold_3.png');
-    twgImageUp = loadImage('./Resources/gold_2.png');
-    twgImageDown = loadImage('./Resources/gold_4.png');*/
-    energyImage = loadImage('./Resources/power.png');/*
-    laserImageright = loadImage('./Resources/laser1_1.png');
-    laserImageleft = loadImage('./Resources/laser1_3.png');
-    laserImageup = loadImage('./Resources/laser1_2.png');
-    laserImagedown = loadImage('./Resources/laser1_4.png');*/
+    goldImage = loadImage('./Resources/gold.png');
+    twgImage = loadImage('./Resources/gold_2.png');
+    energyImage = loadImage('./Resources/power.png');
 
 }
 
@@ -90,18 +71,16 @@ function setup() {
 function draw() {
     if (gameStarted) {
 
-    /*image(hudImage, 0, 0, width, height);
-    image(grassImage, 16, 16, width - 32, height - 32);*/
+    image(hudImage, 0, 0, width, height);
+    image(grassImage, 16, 16, width - 32, height - 32);
 
     background("#acacac")
 
     drawPlayer();
 
-    //drawCamp();
+    drawCamp();
 
     drawResources();
-
-    //Shoot();
 
 
     if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width - side)) {

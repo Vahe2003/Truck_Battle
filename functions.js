@@ -1,17 +1,8 @@
 function drawPlayer() {
     //image(playerImage, playerX, playerY);
-    /*if (playerHasGoldLeft) {
-        image(twgImageLeft, playerX + 2, playerY + 1)
+    if (playerHasGold) {
+        image(twgImage, playerX + 2, playerY + 1)
     }
-    if (playerHasGoldRight) {
-        image(twgImageRight, playerX, playerY)
-    }
-    if (playerHasGoldUp) {
-        image(twgImageUp, playerX, playerY)
-    }
-    if (playerHasGoldDown) {
-        image(twgImageDown, playerX + 1, playerY - 4)
-    }*/
     for(var i in players) {
         fill(players[i].color);
         rect(players[i].x, players[i].y, side, side);
@@ -34,43 +25,8 @@ function drawResources() {
     for (var coords of energy) {
         image(energyImage, coords.x, coords.y, side, side);
     }
-}/*
-function Shoot() {
-    if ((keyIsDown(81) && playerDirection == "right")) {
-        console.log("shooted")
-        for (var coords of laser) {
-            coords.x = playerX;
-            coords.y = playerY;
-            image(laserImageright, coords.x + 30, coords.y, side, side);
-        }
-
-    }
-    if ((keyIsDown(81) && playerDirection == "left")) {
-        console.log("shooted")
-        for (var coords of laser) {
-            coords.x = playerX;
-            coords.y = playerY;
-            image(laserImageleft, coords.x - 30, coords.y, side, side);
-        }
-
-    }
-    if ((keyIsDown(81) && playerDirection == "up")) {
-        console.log("shooted")
-        for (var coords of laser) {
-            coords.x = playerX;
-            coords.y = playerY;
-            image(laserImageup, coords.x, coords.y - 30, side, side);
-        }
-
-    }
-    if ((keyIsDown(81) && playerDirection == "down")) {
-        console.log("shooted")
-        for (var coords of laser) {
-            image(laserImagedown, coords.x, coords.y + 30, side, side);
-        }
-        coords.y += 2;
-    }
 }
+
 function drawCamp() {
     for (var coords of campblue) {
         image(campImageblue, coords.x, coords.y);
@@ -86,24 +42,9 @@ function drawCamp() {
     }
 }
 function ScoreUp() {
-    if (playerHasGoldDown) {
-        playerHasGoldDown = false;
-        score++    
-        console.log(score)
+    if (playerHasGold) {
     }
-    if (playerHasGoldLeft) {
-        playerHasGoldLeft = false;
-        score++   
-    }
-    if (playerHasGoldRight) {
-        playerHasGoldRight = false;
-        score++   
-    }
-    if (playerHasGoldUp) {
-        playerHasGoldUp = false;
-        score++   
-    }
-}*/
+}
 
 
 function Collision_right(coords) {
@@ -179,8 +120,6 @@ function Collision_down(coords) {
 }
 //camp collision 
 
-
-/*
 function Collision_down_camp(coords) {
     var campX = coords.x;
     var campY = coords.y;
@@ -259,4 +198,4 @@ function Collision_right_camp(coords) {
         }
     }
     return false;
-}*/
+}
