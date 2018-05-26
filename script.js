@@ -31,9 +31,9 @@ var energy = [];
 var gold = [];
 
 
-var campblue = [{ x: 16, y: 880}];
-var campgreen = [{ x: 945, y: 16}];
-var campred = [{ x: 16, y:  16}];
+var campblue = [{ x: 16, y: 880 }];
+var campred = [{ x: 945, y:16}];
+var campgreen = [{ x: 16, y: 16}];
 var campyellow = [{ x: 945, y: 880}];
 
 
@@ -108,6 +108,7 @@ function draw() {
             var coords = energy[i];
             if (Collision_right(coords)) {
                 energy.splice(i, 1)
+                socket.emit('splice energy', i);
             }
         }
         playerX += 2;
@@ -144,6 +145,7 @@ function draw() {
                 var coords = energy[i];
                 if (Collision_left(coords)) {
                     energy.splice(i, 1)
+                    socket.emit('splice energy', i);
                 }
             }
         playerX -= 2;
@@ -180,6 +182,7 @@ function draw() {
                 var coords = energy[i];
                 if (Collision_up(coords)) {
                     energy.splice(i, 1)
+                    socket.emit('splice energy', i);
                 }
             }
         playerY -= 2;
@@ -216,6 +219,7 @@ function draw() {
                 var coords = energy[i];
                 if (Collision_down(coords)) {
                     energy.splice(i, 1)
+                    socket.emit('splice energy', i);
                 }
             }
         playerY += 2;
