@@ -30,16 +30,11 @@ var obstacles = [];
 var energy = [];
 var gold = [];
 
-for (var i = 0; i < 9; i++) {
-    obstacles.push({ x: Math.floor(Math.random() * 512), y: Math.floor(Math.random() * 512) })
-    energy.push({ x: Math.floor(Math.random() * 512), y: Math.floor(Math.random() * 512) })
-    gold.push({ x: Math.floor(Math.random() * 512), y: Math.floor(Math.random() * 512) })
-}
 
-var campblue = [{ x: 0.5 * side, y: 13.5 * side }];
-var campred = [{ x: 13.5 * side, y: 13.5 * side }];
-var campgreen = [{ x: 0.5 * side, y: 0.5 * side }];
-var campyellow = [{ x: 13.5 * side, y: 0.5 * side }];
+var campblue = [{ x: 16, y: 880}];
+var campgreen = [{ x: 945, y: 16}];
+var campred = [{ x: 16, y:  16}];
+var campyellow = [{ x: 945, y: 880}];
 
 
 var playerX;
@@ -74,7 +69,6 @@ function draw() {
     image(hudImage, 0, 0, width, height);
     image(grassImage, 16, 16, width - 32, height - 32);
 
-    background("#acacac")
 
     drawPlayer();
 
