@@ -1,14 +1,22 @@
 function drawPlayer() {
     //image(playerImage, playerX, playerY);
-    if (playerHasGold) {
-        image(twgImage, playerX + 2, playerY + 1)
-    }
     for(var i in players) {
         fill(players[i].color);
-        rect(players[i].x, players[i].y, side, side);
+        if(players[i].color == "blue"){
+            image(playerImage[0],players[0].x, players[0].y, side, side);
+        }
+        if(players[i].color == "red"){
+            image(playerImage[1],players[1].x, players[1].y, side, side);
+        }
+        if(players[i].color == "green"){
+            image(playerImage[2],players[2].x, players[2].y, side, side);
+        }
+        if(players[i].color == "yellow"){
+            image(playerImage[3],players[3].x, players[3].y, side, side);
+        }
+    
         if (players[i].hasGold) {
-            fill(255, 223, 0); // Gold's color
-            rect(players[i].x + (side / 8), players[i].y + (side / 8), side - (side / 4), side - (side / 4));
+            image(twgImage, playerX, playerY)
         }
     }
 
