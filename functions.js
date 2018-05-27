@@ -151,7 +151,7 @@ function Collision_down_camp(coords) {
     if (campOY - playerOY <= 48 && campOY - playerOY >= 0) {
 
         if (Math.abs(playerOX - campOX) < 48) {
-            ScoreUp();        
+            ScoreUp();    
             return true;
         }
     }

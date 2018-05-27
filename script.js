@@ -64,6 +64,38 @@ function preload() {
     energyImage = loadImage('./Resources/power.png');
 
 }
+function main() {
+    var socket = io.connect('http://localhost:3000');
+    var chatDiv = document.getElementById('text');
+    var chatText = document.getElementsByTagName('p');
+    var input = document.getElementById('message');
+    var button = document.getElementById('submit');
+    var buttonDelete = document.getElementById('delete'); 
+
+    function handleSubmit(evt) {
+        var val = input.value;
+        if (val != "") {
+            socket.emit("send message", val);
+        }
+    }
+    button.onclick = handleSubmit;
+
+    function handleMessage(msg) {
+        var p = document.createElement('p');
+        p.innerText = msg;
+        chatDiv.appendChild(p);
+        input.value = "";
+        console.log(p)
+    }
+
+    socket.on('display message', handleMessage);
+
+    function handleDelete() {
+        chatDiv.innerHTML = '';
+    }
+    buttonDelete.onclick = handleDelete;
+} 
+window.onload = main;
 
 
 function setup() {
@@ -83,7 +115,7 @@ function draw() {
 
         drawResources();
 
-
+        
         if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width - side)) {
             playerDirection = "right"
             console.log(power)
@@ -107,8 +139,8 @@ function draw() {
             }
             for (var i in energy) {
                 var coords = energy[i];
-                if(power < 0){
-                    power = 0;
+                if(power < 1){
+                    power = -1;
                 }
                 if (Collision_right(coords)) {
                     if(power > 10){
@@ -149,8 +181,8 @@ function draw() {
                 }
             }
             for (var i in energy) {
-                if(power < 0){
-                    power = 0;
+                if(power < 1){
+                    power = -1;
                 }
                 var coords = energy[i];
                 if (Collision_left(coords)) {
@@ -192,8 +224,8 @@ function draw() {
                 }
             }
             for (var i in energy) {
-                if(power < 0){
-                    power = 0;
+                if(power < 1){
+                    power = -1;
                 }
                 var coords = energy[i];
                 if (Collision_up(coords)) {
@@ -235,14 +267,12 @@ function draw() {
                 }
             }
             for (var i in energy) {
-                if(power < 0){
-                    power = 0;
-                }
                 var coords = energy[i];
                 if (Collision_down(coords)) {
                     if(power > 10){
                         power = 9;
                     }
+
                     energy.splice(i, 1)
                     socket.emit('splice energy', i);
                     power++;
@@ -257,6 +287,7 @@ function draw() {
             socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold });
         }
     }
+    
     else {
         background("#acacac");
         textSize(48);
