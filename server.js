@@ -9,21 +9,27 @@ var side = 32;
 var width = 32, height = 30;
 
 var Players = [
-    {x: 3 * side, y: 2 * side, color: "red", hasGold: false},
+    {x: 96, y: 2 * side, color: "red", hasGold: false},
     {x: 3 * side, y:(height - 3) * side, color: "blue", hasGold: false},
     {x: (width - 4) * side, y: 2 * side, color: "green", hasGold: false},
     {x: (width - 4) * side, y: (height - 3) * side, color: "yellow", hasGold: false}
+];
+var Camps = [
+    { x: 16, y: 16 ,color : "red"},
+    { x: 16, y: 880,color : "blue"},
+    { x: 945, y: 16,color: "green"},
+    { x: 945, y: 880,color :"yellow"}
 ];
 
 var allCoordinates = [];
 var GoldArr = [];
 var EnergyArr = [];
 var ObstalceArr = [];
-var BaseArr = [];
 
-var goldCount = 15;
-var energyCount = 10;
+var goldCount = 17;
+var energyCount = 15;
 var obstacleCount = 20;
+
 
 app.use(express.static('.'));
 
@@ -61,7 +67,8 @@ io.on('connection', function(socket) {
             gold: GoldArr,
             energy: EnergyArr,
             obstacles: ObstalceArr,
-            players: Players
+            players: Players,
+            camps : Camps
         });
     });
 
@@ -72,6 +79,9 @@ io.on('connection', function(socket) {
     socket.on('splice gold', function(index) {
         GoldArr.splice(index, 1);
     });
+    socket.on('splice energy', function(index) {
+        EnergyArr.splice(index, 1);
+    });
 
 });
 
@@ -81,7 +91,8 @@ function startGame() {
         gold: GoldArr,
         energy: EnergyArr,
         obstacles: ObstalceArr,
-        players: Players
+        players: Players,
+        camps : Camps
     });
 }
 

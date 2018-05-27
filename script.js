@@ -5,6 +5,7 @@ var players;
 var obstacles;
 var energy;
 var gold;
+var camps;
 var gameStarted = false;
 
 var hudImage;
@@ -23,6 +24,9 @@ var playerDirection = "right"
 
 
 var power = 10;
+setInterval(function(){
+    power--
+},5000);
 var side = 32;
 var score = 0;
 
@@ -34,11 +38,6 @@ var endup = [{ x: 32, y: 0 }];
 var enddown = [{ x: 16, y: 905 }];
 var endright = [{ x: 1014, y: 905 }];
 var endleft = [{ x: 0, y: 0 }];
-
-var campblue = [{ x: 16, y: 880 }];
-var campgreen = [{ x: 945, y: 16 }];
-var campred = [{ x: 16, y: 16 }];
-var campyellow = [{ x: 945, y: 880 }];
 
 
 var playerX;
@@ -54,10 +53,11 @@ function preload() {
     loadImage('./Resources/player_blue_2.png'),
     loadImage('./Resources/player_green_2.png'), 
     loadImage('./Resources/player_yellow_2.png')]
-    campImageblue = loadImage('./Resources/camp_blue.png');
-    campImagered = loadImage('/Resources/camp_red.png');
-    campImagegreen = loadImage('/Resources/camp_green.png');
-    campImageyellow = loadImage('./Resources/camp_yellow.png');
+    campImage =  [loadImage('/Resources/camp_red.png'),
+    loadImage('./Resources/camp_blue.png'),
+    loadImage('/Resources/camp_green.png'),
+    loadImage('./Resources/camp_yellow.png')
+];
     obstacleImage = loadImage('./Resources/obstacle.png');
     goldImage = loadImage('./Resources/gold.png');
     twgImage = loadImage('./Resources/gold_2.png');
@@ -86,20 +86,12 @@ function draw() {
 
         if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width - side)) {
             playerDirection = "right"
+            console.log(power)
             for (var coords of obstacles) {
                 if (Collision_right(coords)) return;
             }
-            for (var coords of campblue) {
-                if (Collision_right_camp(coords)) return;
-            }
-            for (var coords of campred) {
-                if (Collision_right_camp(coords)) return;
-            }
-            for (var coords of campgreen) {
-                if (Collision_right_camp(coords)) return;
-            }
-            for (var coords of campyellow) {
-                if (Collision_right_camp(coords)) return;
+            for (var coords of camps) {
+                    if (Collision_right_camp(coords)) return;
             }
             for (var coords of endright) {
                 if (Collision_End_right(coords)) return;
@@ -115,30 +107,34 @@ function draw() {
             }
             for (var i in energy) {
                 var coords = energy[i];
+                if(power < 0){
+                    power = 0;
+                }
                 if (Collision_right(coords)) {
+                    if(power > 10){
+                        power = 9;
+                    }
                     energy.splice(i, 1)
                     socket.emit('splice energy', i);
+                    power++;
                 }
             }
-            playerX += 3;
+            if(power == 0){
+                playerX += 0.5;
+            }
+            else{
+                playerX += 3;
+            }
             socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold });
         }
         else if ((keyIsDown(LEFT_ARROW) || keyIsDown(65)) && playerX > 0) {
             playerDirection = "left"
+            console.log(power)
             for (var coords of obstacles) {
                 if (Collision_left(coords)) return;
             }
-            for (var coords of campblue) {
-                if (Collision_left_camp(coords)) return;
-            }
-            for (var coords of campred) {
-                if (Collision_left_camp(coords)) return;
-            }
-            for (var coords of campgreen) {
-                if (Collision_left_camp(coords)) return;
-            }
-            for (var coords of campyellow) {
-                if (Collision_left_camp(coords)) return;
+            for (var coords of camps) {
+                    if (Collision_left_camp(coords)) return; 
             }
             for (var coords of endleft) {
                 if (Collision_End_left(coords)) return;
@@ -153,31 +149,35 @@ function draw() {
                 }
             }
             for (var i in energy) {
+                if(power < 0){
+                    power = 0;
+                }
                 var coords = energy[i];
                 if (Collision_left(coords)) {
+                    if(power > 10){
+                        power = 9;
+                    }
                     energy.splice(i, 1)
                     socket.emit('splice energy', i);
+                    power++;
                 }
             }
-            playerX -= 3;
+            if(power == 0){
+                playerX -= 0.5;
+            }
+            else{
+                playerX -= 3;
+            }
             socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold });
         }
         else if ((keyIsDown(UP_ARROW) || keyIsDown(87)) && playerY > 0) {
             playerDirection = "up"
+            console.log(power)
             for (var coords of obstacles) {
                 if (Collision_up(coords)) return;
             }
-            for (var coords of campblue) {
-                if (Collision_up_camp(coords)) return;
-            }
-            for (var coords of campred) {
-                if (Collision_up_camp(coords)) return;
-            }
-            for (var coords of campgreen) {
-                if (Collision_up_camp(coords)) return;
-            }
-            for (var coords of campyellow) {
-                if (Collision_up_camp(coords)) return;
+            for (var coords of camps) {
+                    if (Collision_up_camp(coords)) return;  
             }
             for (var coords of endup) {
                 if (Collision_End_up(coords)) return;
@@ -192,31 +192,35 @@ function draw() {
                 }
             }
             for (var i in energy) {
+                if(power < 0){
+                    power = 0;
+                }
                 var coords = energy[i];
                 if (Collision_up(coords)) {
+                    if(power > 10){
+                        power = 9;
+                    }
                     energy.splice(i, 1)
                     socket.emit('splice energy', i);
+                    power++;
                 }
             }
-            playerY -= 3;
+            if(power == 0){
+                playerY -= 0.5;
+            }
+            else{
+                playerY -= 3;
+            }
             socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold });
         }
         else if ((keyIsDown(DOWN_ARROW) || keyIsDown(83)) && playerY < (height - side)) {
             playerDirection = "down"
+            console.log(power)
             for (var coords of obstacles) {
                 if (Collision_down(coords)) return;
             }
-            for (var coords of campblue) {
-                if (Collision_down_camp(coords)) return;
-            }
-            for (var coords of campred) {
-                if (Collision_down_camp(coords)) return;
-            }
-            for (var coords of campgreen) {
-                if (Collision_down_camp(coords)) return;
-            }
-            for (var coords of campyellow) {
-                if (Collision_down_camp(coords)) return;
+            for (var coords of camps) {
+                    if (Collision_down_camp(coords)) return; 
             }
             for (var coords of enddown) {
                 if (Collision_End_down(coords)) return;
@@ -231,13 +235,25 @@ function draw() {
                 }
             }
             for (var i in energy) {
+                if(power < 0){
+                    power = 0;
+                }
                 var coords = energy[i];
                 if (Collision_down(coords)) {
+                    if(power > 10){
+                        power = 9;
+                    }
                     energy.splice(i, 1)
                     socket.emit('splice energy', i);
+                    power++;
                 }
             }
-            playerY += 3;
+            if(power == 0){
+                playerY += 0.5;
+            }
+            else{
+                playerY += 3;
+            }
             socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold });
         }
     }
@@ -253,6 +269,7 @@ function draw() {
         energy = data.energy;
         obstacles = data.obstacles;
         players = data.players;
+        camps = data.camps
     });
 
     socket.on('config data', function (data) {
@@ -266,5 +283,6 @@ function draw() {
         energy = data.energy;
         obstacles = data.obstacles;
         players = data.players;
+        camps = data.camps
     });
 }
