@@ -3,9 +3,9 @@ body {
 }
 
 #chat {
-    position: fixed;
+    position: absolute;
     left: 1100px;
-    bottom: 850px;
+    top: 100px;
     width: 700px;
     margin:auto;
     background-color: #FAFAFA;

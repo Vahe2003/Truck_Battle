@@ -42,7 +42,10 @@ function drawResources() {
     }
 }
 function ScoreUp(){
-    
+    for(var i in camps)
+    if(players[i].color == "red" && camps[i].color == "red"){
+        players[i].hasGold = false;
+    }
 }
 function drawCamp() {
     for(var i in camps){

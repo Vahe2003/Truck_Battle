@@ -44,8 +44,8 @@ var EnergyArr = [];
 var ObstalceArr = [];
 
 var goldCount = 10;
-var energyCount = 15;
-var obstacleCount = 20;
+var energyCount = 10;
+var obstacleCount = 15;
 
 
 app.use(express.static('.'));

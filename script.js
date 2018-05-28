@@ -118,7 +118,6 @@ function draw() {
         
         if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width - side)) {
             playerDirection = "right"
-            console.log(power)
             for (var coords of obstacles) {
                 if (Collision_right(coords)) return;
             }
@@ -139,20 +138,21 @@ function draw() {
             }
             for (var i in energy) {
                 var coords = energy[i];
-                if(power < 1){
-                    power = -1;
+                if(power < 0){
+                    power = 0;
+                }
+                if(power > 10){
+                    power = 9;
                 }
                 if (Collision_right(coords)) {
-                    if(power > 10){
-                        power = 9;
-                    }
+                    
                     energy.splice(i, 1)
                     socket.emit('splice energy', i);
                     power++;
                 }
             }
             if(power == 0){
-                playerX += 0.5;
+                playerX += 1.5;
             }
             else{
                 playerX += 3;
@@ -161,7 +161,6 @@ function draw() {
         }
         else if ((keyIsDown(LEFT_ARROW) || keyIsDown(65)) && playerX > 0) {
             playerDirection = "left"
-            console.log(power)
             for (var coords of obstacles) {
                 if (Collision_left(coords)) return;
             }
@@ -181,21 +180,21 @@ function draw() {
                 }
             }
             for (var i in energy) {
-                if(power < 1){
-                    power = -1;
+                if(power < 0){
+                    power = 0;
+                }
+                if(power > 10){
+                    power = 9;
                 }
                 var coords = energy[i];
                 if (Collision_left(coords)) {
-                    if(power > 10){
-                        power = 9;
-                    }
                     energy.splice(i, 1)
                     socket.emit('splice energy', i);
                     power++;
                 }
             }
             if(power == 0){
-                playerX -= 0.5;
+                playerX -= 1.5;
             }
             else{
                 playerX -= 3;
@@ -204,7 +203,6 @@ function draw() {
         }
         else if ((keyIsDown(UP_ARROW) || keyIsDown(87)) && playerY > 0) {
             playerDirection = "up"
-            console.log(power)
             for (var coords of obstacles) {
                 if (Collision_up(coords)) return;
             }
@@ -224,21 +222,21 @@ function draw() {
                 }
             }
             for (var i in energy) {
-                if(power < 1){
-                    power = -1;
+                if(power < 0){
+                    power = 0;
+                }
+                if(power > 10){
+                    power = 9;
                 }
                 var coords = energy[i];
                 if (Collision_up(coords)) {
-                    if(power > 10){
-                        power = 9;
-                    }
                     energy.splice(i, 1)
                     socket.emit('splice energy', i);
                     power++;
                 }
             }
             if(power == 0){
-                playerY -= 0.5;
+                playerY -= 1.5;
             }
             else{
                 playerY -= 3;
@@ -247,7 +245,6 @@ function draw() {
         }
         else if ((keyIsDown(DOWN_ARROW) || keyIsDown(83)) && playerY < (height - side)) {
             playerDirection = "down"
-            console.log(power)
             for (var coords of obstacles) {
                 if (Collision_down(coords)) return;
             }
@@ -267,11 +264,15 @@ function draw() {
                 }
             }
             for (var i in energy) {
+                if(power < 0){
+                    power = 0;
+                }
+                if(power > 10){
+                    power = 9;
+                }
                 var coords = energy[i];
                 if (Collision_down(coords)) {
-                    if(power > 10){
-                        power = 9;
-                    }
+                   
 
                     energy.splice(i, 1)
                     socket.emit('splice energy', i);
@@ -279,7 +280,7 @@ function draw() {
                 }
             }
             if(power == 0){
-                playerY += 0.5;
+                playerY += 1.5;
             }
             else{
                 playerY += 3;
