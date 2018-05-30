@@ -3,12 +3,15 @@ body {
             padding: 0;
             overflow: hidden;
         }
+body {
+    font-family: Arial, Helvetica, sans-serif!important;
+}
+
 #chat {
-    position: fixed;
+    position: absolute;
     left:1100px;
     top:100px;
     width: 700px;
-    height: 100px;
     margin:auto;
     background-color: #FAFAFA;
     border: 1px solid #acacac;
@@ -26,6 +29,16 @@ body {
 }
 
 #submit {
+    width: 150px;
+    height: 25px;
+    border-radius: 0;
+    background-color: #43A047;
+    color: white;
+    font-size: 1.25em;
+    border: none;
+}
+
+#delete {
     width: 150px;
     height: 25px;
     border-radius: 0;
