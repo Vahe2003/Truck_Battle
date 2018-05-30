@@ -22,6 +22,38 @@ var energyImage;
 var bgImage;
 var playerDirection = "right"
 
+function main() {
+    var socket = io.connect('http://localhost:3000');
+    var chatDiv = document.getElementById('text');
+    var chatText = document.getElementsByTagName('p');
+    var input = document.getElementById('message');
+    var button = document.getElementById('submit');
+    var buttonDelete = document.getElementById('delete'); 
+
+    function handleSubmit(evt) {
+        var val = input.value;
+        if (val != "") {
+            socket.emit("send message", val);
+        }
+    }
+    button.onclick = handleSubmit();
+
+    function handleMessage(msg) {
+        var p = document.createElement('p');
+        p.innerText = msg;
+        chatDiv.appendChild(p);
+        input.value = "";
+    }
+
+    socket.on('display message', handleMessage);
+
+    function handleDelete() {
+        chatDiv.innerHTML = '';
+    }
+    buttonDelete.onclick = handleDelete;
+} 
+window.onload = main;
+
 
 
 var power = 10;
@@ -74,7 +106,7 @@ function draw() {
     if (gameStarted) {
 
 
-        image(hudImage, 0, 0, width, height);
+         image(hudImage, 0, 0, width, height);
         image(grassImage, 16, 16, width - 32, height - 32);
 
 
@@ -92,6 +124,7 @@ function draw() {
     }
 }
 ShowScore();*/
+
         if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width - side)) {
             playerDirection = "right"
             for (var coords of obstacles) {
