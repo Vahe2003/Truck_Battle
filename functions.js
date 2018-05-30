@@ -1,17 +1,17 @@
 function drawPlayer() {
-    for(var i in players) {
+    for (var i in players) {
         fill(players[i].color);
-        if(players[i].color == "red"){
-            image(playerImage[0],players[0].x, players[0].y, side, side);
+        if (players[i].color == "red") {
+            image(playerImage[0], players[0].x, players[0].y, side, side);
         }
-        if(players[i].color == "blue"){
-            image(playerImage[1],players[1].x, players[1].y, side, side);
+        if (players[i].color == "blue") {
+            image(playerImage[1], players[1].x, players[1].y, side, side);
         }
-        if(players[i].color == "green"){
-            image(playerImage[2],players[2].x, players[2].y, side, side);
+        if (players[i].color == "green") {
+            image(playerImage[2], players[2].x, players[2].y, side, side);
         }
-        if(players[i].color == "yellow"){
-            image(playerImage[3],players[3].x, players[3].y, side, side);
+        if (players[i].color == "yellow") {
+            image(playerImage[3], players[3].x, players[3].y, side, side);
         }
         if (players[i].hasGold && players[i].color == "red") {
             image(twgImage, players[0].x, players[0].y)
@@ -41,32 +41,46 @@ function drawResources() {
         image(energyImage, coords.x, coords.y, side, side);
     }
 }
-function ScoreUp(){
-    for(var i in camps)
-    if(players[i].color == "red" && camps[i].color == "red"){
-        players[i].hasGold = false;
+
+function drawCamp() {
+    for (var i in camps) {
+        fill(camps[i].color);
+        for (var coords of camps) {
+            if (camps[i].color == "red") {
+                image(campImage[0], camps[0].x, camps[0].y);
+            }
+            if (camps[i].color == "blue") {
+                image(campImage[1], camps[1].x, camps[1].y);
+            }
+            if (camps[i].color == "green") {
+                image(campImage[2], camps[2].x, camps[2].y);
+            }
+            if (camps[i].color == "yellow") {
+                image(campImage[3], camps[3].x, camps[3].y);
+            }
+        }
     }
 }
-function drawCamp() {
-    for(var i in camps){
-    fill(camps[i].color);
-    for (var coords of camps) {
-        if(camps[i].color == "red"){
-            image(campImage[0],camps[0].x, camps[0].y);
-        }
-        if(camps[i].color == "blue"){
-            image(campImage[1],camps[1].x, camps[1].y);
-        }
-        if(camps[i].color == "green"){
-            image(campImage[2],camps[2].x, camps[2].y);
-        }
-        if(camps[i].color == "yellow"){
-            image(campImage[3],camps[3].x, camps[3].y);
-        }
+function Score(){
+    for(var i in players) {
+    if(players[i].color == "red" && camps[i].color == "red"
+    && playerHasGold && players[i].hasGold){
+    playerHasGold = false;
+}
+if(players[i].color == "blue" && camps[i].color == "blue"
+&& playerHasGold && players[i].hasGold){
+    playerHasGold = false;
+}
+if(players[i].color == "green" && camps[i].color == "green"
+&& playerHasGold && players[i].hasGold){
+    playerHasGold = false;
+}
+if(players[i].color == "yellow" && camps[i].color == "yellow"
+&& playerHasGold && players[i].hasGold){
+    playerHasGold = false;
 }
 }
 }
-
 
 function Collision_right(coords) {
     var obstacleX = coords.x;
@@ -79,7 +93,7 @@ function Collision_right(coords) {
     var objectOY = obstacleY + (side / 2);
 
     if (objectOX - playerOX <= side && objectOX - playerOX >= 0) {
-        if (Math.abs(playerOY - objectOY) < side) {        
+        if (Math.abs(playerOY - objectOY) < side) {
             return true;
         }
     }
@@ -154,7 +168,7 @@ function Collision_down_camp(coords) {
     if (campOY - playerOY <= 48 && campOY - playerOY >= 0) {
 
         if (Math.abs(playerOX - campOX) < 48) {
-            ScoreUp();    
+            Score();
             return true;
         }
     }
@@ -175,11 +189,12 @@ function Collision_left_camp(coords) {
 
     if (playerOX - campOX <= 48 && playerOX - campOX >= 0) {
         if (Math.abs(playerOY - campOY) < 48) {
-            ScoreUp();        
-            return true;
+            if (Math.abs(playerOX - campOX) < 48) {
+                Score();
+                return true;
+            }
         }
     }
-
     return false;
 }
 
@@ -195,8 +210,10 @@ function Collision_up_camp(coords) {
 
     if (playerOY - campOY <= 48 && playerOY - campOY >= 0) {
         if (Math.abs(playerOX - campOX) < 48) {
-            ScoreUp();        
-            return true;
+            if (Math.abs(playerOX - campOX) < 48) {
+                Score();
+                return true;
+            }
         }
     }
     return false;
@@ -214,14 +231,16 @@ function Collision_right_camp(coords) {
 
     if (campOX - playerOX <= 48 && campOX - playerOX >= 0) {
         if (Math.abs(playerOY - campOY) < 48) {
-            ScoreUp();        
-            return true;
+            if (Math.abs(playerOX - campOX) < 48) {
+                Score();
+                return true;
+            }
         }
     }
     return false;
 }
 
-//////////////////////////////////////////////////////////////
+//////////End collision
 
 function Collision_End_up(coords) {
     var endX = coords.x;
@@ -233,7 +252,7 @@ function Collision_End_up(coords) {
     var endOX = endX + side;
     var endOY = endY + side;
 
-    if (playerOY - endOY <= 10  && endOY - playerOY >= 0) {
+    if (playerOY - endOY <= 10 && endOY - playerOY >= 0) {
         if (Math.abs(playerOX - endOX) < 1024) {
             return true;
         }

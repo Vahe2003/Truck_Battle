@@ -23,10 +23,11 @@ var bgImage;
 var playerDirection = "right"
 
 
+
 var power = 10;
 setInterval(function(){
     power--
-},5000);
+},10000);
 var side = 32;
 var score = 0;
 
@@ -72,6 +73,7 @@ function setup() {
 function draw() {
     if (gameStarted) {
 
+
         image(hudImage, 0, 0, width, height);
         image(grassImage, 16, 16, width - 32, height - 32);
 
@@ -81,8 +83,15 @@ function draw() {
         drawCamp();
 
         drawResources();
-
-        
+       /* function ShowScore(){
+        text('Score: ' + score, 15, 30);
+        for(var i =0;i<100;i++){
+        if(Score()){
+            text('Score: ' + score++, 15, 30);
+        }
+    }
+}
+ShowScore();*/
         if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width - side)) {
             playerDirection = "right"
             for (var coords of obstacles) {
@@ -132,7 +141,7 @@ function draw() {
                 if (Collision_left(coords)) return;
             }
             for (var coords of camps) {
-                    if (Collision_left_camp(coords)) return; 
+                    if (Collision_left_camp(coords)) return;
             }
             for (var coords of endleft) {
                 if (Collision_End_left(coords)) return;
