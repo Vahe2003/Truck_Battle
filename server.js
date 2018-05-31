@@ -3,24 +3,22 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-
-
 var port = process.env.PORT || 3000;
 
 var side = 32;
 var width = 32, height = 30;
 
 var Players = [
-    {x: 4 * side, y: side, color: "red", hasGold: false},
-    {x: 4 * side, y:(height - 2) * side, color: "blue", hasGold: false},
-    {x: (width - 4) * side, y: side, color: "green", hasGold: false},
-    {x: (width - 4) * side, y: (height - 2) * side, color: "yellow", hasGold: false}
+    {x: 128, y: 32, color: "red", hasGold: false},
+    {x: 128, y: 896, color: "blue", hasGold: false},
+    {x: 896, y: 32, color: "green", hasGold: false},
+    {x: 896, y: 896, color: "yellow", hasGold: false}
 ];
 var Camps = [
     { x: 16, y: 16 ,color : "red"},
     { x: 16, y: 880,color : "blue"},
-    { x: 945, y: 16,color: "green"},
-    { x: 945, y: 880,color :"yellow"}
+    { x: 944, y: 16,color: "green"},
+    { x: 944, y: 880,color :"yellow"}
 ];
 
 var allCoordinates = [];
@@ -28,7 +26,7 @@ var GoldArr = [];
 var EnergyArr = [];
 var ObstalceArr = [];
 
-var goldCount = 20;
+var goldCount = 50;
 var energyCount = 20;
 var obstacleCount = 30;
 
@@ -65,6 +63,7 @@ io.on('connection', function(socket) {
                 Players[i] = data;
             }
         };
+       
         io.sockets.emit('main data', {
             gold: GoldArr,
             energy: EnergyArr,

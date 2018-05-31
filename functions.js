@@ -61,26 +61,6 @@ function drawCamp() {
         }
     }
 }
-function Score(){
-    for(var i in players) {
-    if(players[i].color == "red" && camps[i].color == "red"
-    && playerHasGold && players[i].hasGold){
-    playerHasGold = false;
-}
-if(players[i].color == "blue" && camps[i].color == "blue"
-&& playerHasGold && players[i].hasGold){
-    playerHasGold = false;
-}
-if(players[i].color == "green" && camps[i].color == "green"
-&& playerHasGold && players[i].hasGold){
-    playerHasGold = false;
-}
-if(players[i].color == "yellow" && camps[i].color == "yellow"
-&& playerHasGold && players[i].hasGold){
-    playerHasGold = false;
-}
-}
-}
 
 function Collision_right(coords) {
     var obstacleX = coords.x;
@@ -168,7 +148,7 @@ function Collision_down_camp(coords) {
     if (campOY - playerOY <= 48 && campOY - playerOY >= 0) {
 
         if (Math.abs(playerOX - campOX) < 48) {
-            Score();
+            
             return true;
         }
     }
@@ -190,7 +170,7 @@ function Collision_left_camp(coords) {
     if (playerOX - campOX <= 48 && playerOX - campOX >= 0) {
         if (Math.abs(playerOY - campOY) < 48) {
             if (Math.abs(playerOX - campOX) < 48) {
-                Score();
+                
                 return true;
             }
         }
@@ -211,7 +191,7 @@ function Collision_up_camp(coords) {
     if (playerOY - campOY <= 48 && playerOY - campOY >= 0) {
         if (Math.abs(playerOX - campOX) < 48) {
             if (Math.abs(playerOX - campOX) < 48) {
-                Score();
+                
                 return true;
             }
         }
@@ -219,7 +199,7 @@ function Collision_up_camp(coords) {
     return false;
 }
 
-function Collision_right_camp(coords) {
+Collision_right_camp = function(coords) {
     var campX = coords.x;
     var campY = coords.y;
 
@@ -232,7 +212,7 @@ function Collision_right_camp(coords) {
     if (campOX - playerOX <= 48 && campOX - playerOX >= 0) {
         if (Math.abs(playerOY - campOY) < 48) {
             if (Math.abs(playerOX - campOX) < 48) {
-                Score();
+                
                 return true;
             }
         }

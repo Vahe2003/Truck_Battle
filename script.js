@@ -1,3 +1,5 @@
+//help
+
 var socket = io();
 var config = {};
 
@@ -23,10 +25,11 @@ var bgImage;
 var playerDirection = "right"
 
 
+
 var power = 10;
-setInterval(function(){
+setInterval(function () {
     power--
-},10000);
+}, 10000);
 var side = 32;
 var score = 0;
 
@@ -44,21 +47,20 @@ var playerX;
 var playerY;
 
 var playerHasGold = false;
-   
 
 function preload() {
     bgImage = loadImage('./Resources/bg.png');
     hudImage = loadImage('./Resources/hud.png');
     grassImage = loadImage('./Resources/grass.png');
-    playerImage= [loadImage('./Resources/player_red_2.png'),
+    playerImage = [loadImage('./Resources/player_red_2.png'),
     loadImage('./Resources/player_blue_2.png'),
-    loadImage('./Resources/player_green_2.png'), 
+    loadImage('./Resources/player_green_2.png'),
     loadImage('./Resources/player_yellow_2.png')]
-    campImage =  [loadImage('/Resources/camp_red.png'),
+    campImage = [loadImage('/Resources/camp_red.png'),
     loadImage('./Resources/camp_blue.png'),
     loadImage('/Resources/camp_green.png'),
     loadImage('./Resources/camp_yellow.png')
-];
+    ];
     obstacleImage = loadImage('./Resources/obstacle.png');
     goldImage = loadImage('./Resources/gold.png');
     twgImage = loadImage('./Resources/gold_2.png');
@@ -73,9 +75,35 @@ function setup() {
 function draw() {
     if (gameStarted) {
 
+        function Score() {
+            if (camps[0].x <= players[0].x && players[0].x <= 82 
+                && camps[0].y <= players[0].y
+                && players[0].y <= 82 
+                && players[0].hasGold == true) {
+                playerHasGold = false;
+            }
+            else if (camps[1].x <= players[1].x && players[1].x <= 82
+                 && camps[1].y >= players[1].y 
+                 && players[1].y >= 842
+                 && players[1].hasGold == true) {
+                playerHasGold = false;
+            }
+            else if (camps[2].x > players[2].x && players[2].x >= 900
+                && camps[2].y <= players[2].y
+                && players[2].y < 82 
+                && players[2].hasGold == true) {
+                playerHasGold = false;
+            }
+            else if (camps[3].x > players[3].x && players[3].x >= 900
+                && camps[3].y >= players[3].y
+                && players[3].y >= 842 
+                && players[3].hasGold == true) {
+                playerHasGold = false;
+            }
+        }
+        Score();
 
-
-         image(hudImage, 0, 0, width, height);
+        image(hudImage, 0, 0, width, height);
         image(grassImage, 16, 16, width - 32, height - 32);
 
 
@@ -84,23 +112,22 @@ function draw() {
         drawCamp();
 
         drawResources();
-       /* function ShowScore(){
-        text('Score: ' + score, 15, 30);
-        for(var i =0;i<100;i++){
-        if(Score()){
-            text('Score: ' + score++, 15, 30);
-        }
-    }
-}
-ShowScore();*/
-
+        /* function ShowScore(){
+         text('Score: ' + score, 15, 30);
+         for(var i =0;i<100;i++){
+         if(Score()){
+             text('Score: ' + score++, 15, 30);
+         }
+     }
+ }
+ ShowScore();*/
         if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width - side)) {
             playerDirection = "right"
             for (var coords of obstacles) {
                 if (Collision_right(coords)) return;
             }
             for (var coords of camps) {
-                    if (Collision_right_camp(coords)) return;
+                if (Collision_right_camp(coords)) return;
             }
             for (var coords of endright) {
                 if (Collision_End_right(coords)) return;
@@ -116,23 +143,23 @@ ShowScore();*/
             }
             for (var i in energy) {
                 var coords = energy[i];
-                if(power < 0){
+                if (power < 0) {
                     power = 0;
                 }
-                if(power > 10){
+                if (power > 10) {
                     power = 9;
                 }
                 if (Collision_right(coords)) {
-                    
+
                     energy.splice(i, 1)
                     socket.emit('splice energy', i);
                     power++;
                 }
             }
-            if(power == 0){
+            if (power == 0) {
                 playerX += 1.5;
             }
-            else{
+            else {
                 playerX += 3;
             }
             socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold });
@@ -143,7 +170,7 @@ ShowScore();*/
                 if (Collision_left(coords)) return;
             }
             for (var coords of camps) {
-                    if (Collision_left_camp(coords)) return;
+                if (Collision_left_camp(coords)) return;
             }
             for (var coords of endleft) {
                 if (Collision_End_left(coords)) return;
@@ -158,10 +185,10 @@ ShowScore();*/
                 }
             }
             for (var i in energy) {
-                if(power < 0){
+                if (power < 0) {
                     power = 0;
                 }
-                if(power > 10){
+                if (power > 10) {
                     power = 9;
                 }
                 var coords = energy[i];
@@ -171,10 +198,10 @@ ShowScore();*/
                     power++;
                 }
             }
-            if(power == 0){
+            if (power == 0) {
                 playerX -= 1.5;
             }
-            else{
+            else {
                 playerX -= 3;
             }
             socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold });
@@ -185,7 +212,7 @@ ShowScore();*/
                 if (Collision_up(coords)) return;
             }
             for (var coords of camps) {
-                    if (Collision_up_camp(coords)) return;  
+                if (Collision_up_camp(coords)) return;
             }
             for (var coords of endup) {
                 if (Collision_End_up(coords)) return;
@@ -200,10 +227,10 @@ ShowScore();*/
                 }
             }
             for (var i in energy) {
-                if(power < 0){
+                if (power < 0) {
                     power = 0;
                 }
-                if(power > 10){
+                if (power > 10) {
                     power = 9;
                 }
                 var coords = energy[i];
@@ -213,10 +240,10 @@ ShowScore();*/
                     power++;
                 }
             }
-            if(power == 0){
+            if (power == 0) {
                 playerY -= 1.5;
             }
-            else{
+            else {
                 playerY -= 3;
             }
             socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold });
@@ -227,7 +254,7 @@ ShowScore();*/
                 if (Collision_down(coords)) return;
             }
             for (var coords of camps) {
-                    if (Collision_down_camp(coords)) return; 
+                if (Collision_down_camp(coords)) return;
             }
             for (var coords of enddown) {
                 if (Collision_End_down(coords)) return;
@@ -242,31 +269,32 @@ ShowScore();*/
                 }
             }
             for (var i in energy) {
-                if(power < 0){
+                if (power < 0) {
                     power = 0;
                 }
-                if(power > 10){
+                if (power > 10) {
                     power = 9;
                 }
                 var coords = energy[i];
                 if (Collision_down(coords)) {
-                   
+
 
                     energy.splice(i, 1)
                     socket.emit('splice energy', i);
                     power++;
                 }
             }
-            if(power == 0){
+            if (power == 0) {
                 playerY += 1.5;
             }
-            else{
+            else {
                 playerY += 3;
             }
             socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold });
         }
+
     }
-    
+
     else {
         background("#acacac");
         textSize(48);
@@ -296,7 +324,7 @@ ShowScore();*/
         camps = data.camps
     });
 }
-      function main() {             
+function main() {             
     var chatDiv = document.getElementById('text');
     var chatText = document.getElementsByTagName('p');
     var input = document.getElementById('message');
