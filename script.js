@@ -1,5 +1,3 @@
-//help
-
 var socket = io();
 var config = {};
 
@@ -23,13 +21,14 @@ var twgImage;
 var energyImage;
 var bgImage;
 var playerDirection = "right"
-
+var gameOver = false;
+ 
 
 
 var power = 10;
 setInterval(function () {
     power--
-}, 10000);
+}, 5000);
 var side = 32;
 var score = 0;
 
@@ -75,29 +74,38 @@ function setup() {
 function draw() {
     if (gameStarted) {
 
+        
         function Score() {
-            if (camps[0].x <= players[0].x && players[0].x <= 82 
-                && camps[0].y <= players[0].y
-                && players[0].y <= 82 
+            if (camps[0].x < players[0].x && players[0].x < 82
+                && camps[0].y < players[0].y
+                && players[0].y < 82
                 && players[0].hasGold == true) {
+                    players[0].hasGold = false;
                 playerHasGold = false;
+                score++
             }
             else if (camps[1].x <= players[1].x && players[1].x <= 82
                  && camps[1].y >= players[1].y 
                  && players[1].y >= 842
                  && players[1].hasGold == true) {
+                    players[1].hasGold = false;
+                    score++
                 playerHasGold = false;
             }
             else if (camps[2].x > players[2].x && players[2].x >= 900
                 && camps[2].y <= players[2].y
                 && players[2].y < 82 
                 && players[2].hasGold == true) {
+                    players[2].hasGold = false;
+                    score++
                 playerHasGold = false;
             }
             else if (camps[3].x > players[3].x && players[3].x >= 900
                 && camps[3].y >= players[3].y
                 && players[3].y >= 842 
                 && players[3].hasGold == true) {
+                    players[3].hasGold = false;
+                    score++
                 playerHasGold = false;
             }
         }
@@ -112,15 +120,12 @@ function draw() {
         drawCamp();
 
         drawResources();
-        /* function ShowScore(){
-         text('Score: ' + score, 15, 30);
-         for(var i =0;i<100;i++){
-         if(Score()){
-             text('Score: ' + score++, 15, 30);
-         }
-     }
+        function ShowScore(){
+         text('Score: ' + score, 412, 50);
+         text('Energy: ' + power,412,930)
  }
- ShowScore();*/
+ ShowScore();
+
         if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && playerX < (width - side)) {
             playerDirection = "right"
             for (var coords of obstacles) {
@@ -147,7 +152,7 @@ function draw() {
                     power = 0;
                 }
                 if (power > 10) {
-                    power = 9;
+                    power = 10;
                 }
                 if (Collision_right(coords)) {
 
@@ -162,7 +167,7 @@ function draw() {
             else {
                 playerX += 3;
             }
-            socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold });
+            socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold});
         }
         else if ((keyIsDown(LEFT_ARROW) || keyIsDown(65)) && playerX > 0) {
             playerDirection = "left"
@@ -189,7 +194,7 @@ function draw() {
                     power = 0;
                 }
                 if (power > 10) {
-                    power = 9;
+                    power = 10;
                 }
                 var coords = energy[i];
                 if (Collision_left(coords)) {
@@ -204,7 +209,7 @@ function draw() {
             else {
                 playerX -= 3;
             }
-            socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold });
+            socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold});
         }
         else if ((keyIsDown(UP_ARROW) || keyIsDown(87)) && playerY > 0) {
             playerDirection = "up"
@@ -231,7 +236,7 @@ function draw() {
                     power = 0;
                 }
                 if (power > 10) {
-                    power = 9;
+                    power = 10;
                 }
                 var coords = energy[i];
                 if (Collision_up(coords)) {
@@ -246,7 +251,7 @@ function draw() {
             else {
                 playerY -= 3;
             }
-            socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold });
+            socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold});
         }
         else if ((keyIsDown(DOWN_ARROW) || keyIsDown(83)) && playerY < (height - side)) {
             playerDirection = "down"
@@ -273,7 +278,7 @@ function draw() {
                     power = 0;
                 }
                 if (power > 10) {
-                    power = 9;
+                    power = 10;
                 }
                 var coords = energy[i];
                 if (Collision_down(coords)) {
@@ -290,7 +295,7 @@ function draw() {
             else {
                 playerY += 3;
             }
-            socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold });
+            socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold});
         }
 
     }
@@ -298,7 +303,7 @@ function draw() {
     else {
         background("#acacac");
         textSize(48);
-        text('Waiting for players to join the game', 30, 60);
+        text('Waiting for players to join the game', 80, 60);
     }
 
     socket.on('game started', function (data) {

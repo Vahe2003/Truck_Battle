@@ -9,10 +9,10 @@ var side = 32;
 var width = 32, height = 30;
 
 var Players = [
-    {x: 128, y: 32, color: "red", hasGold: false},
-    {x: 128, y: 896, color: "blue", hasGold: false},
-    {x: 896, y: 32, color: "green", hasGold: false},
-    {x: 896, y: 896, color: "yellow", hasGold: false}
+    {x: 128, y: 32, color: "red", hasGold: false,},
+    {x: 128, y: 896, color: "blue", hasGold: false,},
+    {x: 896, y: 32, color: "green", hasGold: false,},
+    {x: 896, y: 896, color: "yellow", hasGold: false,}
 ];
 var Camps = [
     { x: 16, y: 16 ,color : "red"},
@@ -69,7 +69,7 @@ io.on('connection', function(socket) {
             energy: EnergyArr,
             obstacles: ObstalceArr,
             players: Players,
-            camps : Camps
+            camps : Camps,
         });
     });
 
@@ -93,7 +93,7 @@ function startGame() {
         energy: EnergyArr,
         obstacles: ObstalceArr,
         players: Players,
-        camps : Camps
+        camps : Camps,
     });
 }
 
@@ -135,3 +135,4 @@ io.on('connection', function (socket) {
         io.sockets.emit("display message", data);
     })
 });
+
