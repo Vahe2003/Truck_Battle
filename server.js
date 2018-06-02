@@ -9,10 +9,10 @@ var side = 32;
 var width = 32, height = 30;
 
 var Players = [
-    {x: 128, y: 32, color: "red", hasGold: false,},
-    {x: 128, y: 896, color: "blue", hasGold: false,},
-    {x: 896, y: 32, color: "green", hasGold: false,},
-    {x: 896, y: 896, color: "yellow", hasGold: false,}
+    {x: 128, y: 32, color: "red", hasGold: false},
+    {x: 128, y: 896, color: "blue", hasGold: false},
+    {x: 896, y: 32, color: "green", hasGold: false},
+    {x: 896, y: 896, color: "yellow", hasGold: false}
 ];
 var Camps = [
     { x: 16, y: 16 ,color : "red"},
@@ -25,6 +25,7 @@ var allCoordinates = [];
 var GoldArr = [];
 var EnergyArr = [];
 var ObstalceArr = [];
+var ScoreArr = [];
 
 var goldCount = 50;
 var energyCount = 20;
@@ -71,6 +72,9 @@ io.on('connection', function(socket) {
             players: Players,
             camps : Camps,
         });
+    });
+    io.sockets.emit('Winner',{
+        Score:ScoreArr
     });
 
     socket.on('disconnect', function() {
@@ -128,11 +132,14 @@ var messages = [];
 
 io.on('connection', function (socket) {
     for (var i in messages) {
-        io.sockets.emit("display message", messages[i]);
+        io.sockets.emit("display message",messages[i]);
     }
     socket.on("send message", function (data) {
         messages.push(data);
         io.sockets.emit("display message", data);
     })
 });
-
+if(ScoreArr >= 5){
+    alert("Test")
+    clear();
+}

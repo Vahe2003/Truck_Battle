@@ -22,6 +22,8 @@ var energyImage;
 var bgImage;
 var playerDirection = "right"
 var gameOver = false;
+
+
  
 
 
@@ -80,7 +82,7 @@ function draw() {
                 && camps[0].y < players[0].y
                 && players[0].y < 82
                 && players[0].hasGold == true) {
-                    players[0].hasGold = false;
+                players[0].hasGold = false;
                 playerHasGold = false;
                 score++
             }
@@ -297,7 +299,12 @@ function draw() {
             }
             socket.emit('move', { x: playerX, y: playerY, color: config.color, hasGold: playerHasGold});
         }
-
+        if(score >= 5){
+            alert("YOU WON")
+            gameOver = true;
+            clear();
+            socket.emit('Winner',{Score:score})
+        }
     }
 
     else {
@@ -339,7 +346,7 @@ function main() {
     function handleSubmit(evt) {
         var val = input.value;
         if (val != "") {
-            socket.emit("send message", val);
+            socket.emit("send message", val, Username);
         }
     }
     button.onclick = handleSubmit;
@@ -358,5 +365,5 @@ function main() {
     }
     buttonDelete.onclick = handleDelete;
 } 
-
+var Username = prompt("Enter Your Username"); 
 window.onload = main;
